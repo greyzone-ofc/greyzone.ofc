@@ -1,0 +1,22 @@
+---
+description: Site shell for the GREYZONE marketing portfolio
+alwaysApply: true
+---
+
+# Layout
+
+Header and footer list the same destinations: Services, Work, Studio, Journal, Contact. Mark the current page. Keep labels visible when the row fits; let them wrap when it does not.
+
+The first screen states what GREYZONE does and has one primary action. A second action stays an outline, not a second red button.
+
+Spacing step is 8px, which is Tailwind `2` while the default 4px spacing base stays in place. Button height is 48px, radius `rounded-button` (10px). Cards use `rounded-card` (12px). Focus is the outline already set in `app/globals.css`.
+
+```tsx
+// ❌ BAD — a second red action, and a color outside the brand set
+<button className="bg-signal">Start a project</button>
+<button className="bg-red-500">Book a call</button>
+
+// ✅ GOOD — one red action, one outline action
+<Link href="/contact" className="bg-signal text-white">Start a project</Link>
+<Link href="/work" className="border border-black">See our work</Link>
+```

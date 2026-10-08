@@ -1,1 +1,40 @@
 @import "tailwindcss";
+
+@theme {
+  --color-*: initial;
+  --color-white: #ffffff;
+  --color-black: #0a0a0a;
+  --color-signal: #d1162c;
+  --color-deep: #9e0f20;
+  --color-grey: #868a90;
+  --color-mist: #e4e5e7;
+  --color-paper: #f4f4f2;
+  --color-ink: #55585d;
+  --color-graphite: #1c1d1f;
+
+  --text-h1: 4rem;
+  --text-h1--line-height: 4.5rem;
+  --text-h2: 2.5rem;
+  --text-h2--line-height: 3rem;
+  --text-h3: 1.75rem;
+  --text-h3--line-height: 2.25rem;
+  --text-subtitle: 1.125rem;
+  --text-subtitle--line-height: 1.625rem;
+  --text-body: 1rem;
+  --text-body--line-height: 1.625rem;
+  --text-caption: 0.75rem;
+  --text-caption--line-height: 1.125rem;
+  --text-button: 0.875rem;
+  --text-button--line-height: 1.25rem;
+  --text-label: 0.6875rem;
+  --text-label--line-height: 1rem;
+
+  --tracking-button: 0.06em;
+  --radius-card: 12px;
+  --radius-button: 10px;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-black);
+  outline-offset: 4px;
+}

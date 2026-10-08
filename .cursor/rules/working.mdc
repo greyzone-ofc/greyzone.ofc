@@ -1,0 +1,12 @@
+---
+description: How to change this project
+alwaysApply: true
+---
+
+# Working on this project
+
+Read the code that the change touches, then check the brand guidelines and current docs before editing. Do not guess a color, font, logo, or page that is not in the repo or the guidelines.
+
+Keep the change as small as the task. Do not add a component, hook, or dependency for markup that fits in the file you are already editing.
+
+Do not run shell commands to print values you can read from the file.
