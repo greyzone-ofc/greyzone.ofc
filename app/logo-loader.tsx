@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 
-type Phase = "down" | "risen" | "named" | "prep" | "dock" | "done";
+type Phase = "play" | "prep" | "dock" | "done";
 
 const lockupClass =
   "logo-lockup inline-flex h-12 items-center gap-2 text-body tracking-button uppercase";
@@ -13,10 +13,7 @@ const move = "transform 0.8s cubic-bezier(0.05, 0.7, 0.1, 1), opacity 0.38s ease
 function Mark() {
   return (
     <>
-      <span className="logo-mark">
-        <img className="on-dark" src="/SYMBOL_Dark.png" alt="" />
-        <img className="on-light" src="/SYMBOL_Dark.png" alt="" />
-      </span>
+      <img src="/SYMBOL_Dark.png" alt="" />
       <span className="logo-name">
         <span>Greyzone.</span>
       </span>
@@ -27,7 +24,7 @@ function Mark() {
 export function LogoLoader() {
   const homeRef = useRef<HTMLAnchorElement>(null);
   const floatRef = useRef<HTMLDivElement>(null);
-  const [phase, setPhase] = useState<Phase>("down");
+  const [phase, setPhase] = useState<Phase>("play");
   const [navH, setNavH] = useState(0);
   const [dock, setDock] = useState<CSSProperties>();
 
@@ -37,26 +34,25 @@ export function LogoLoader() {
       return;
     }
 
-    let alive = true;
     const float = floatRef.current;
     const home = homeRef.current;
     if (!float || !home) return;
 
+    let alive = true;
     const finish = () => {
       if (!alive) return;
       alive = false;
       setDock(undefined);
       setPhase("done");
     };
-
     const failSafe = window.setTimeout(finish, 3550);
 
-    const slideUp = () => {
+    const play = () => {
       const header = home.closest("header");
-      if (!header) return finish();
+      if (!alive || !header) return finish();
       const first = float.getBoundingClientRect();
-      const target = home.getBoundingClientRect();
-      const scale = target.width ? first.width / target.width : 1;
+      const last = home.getBoundingClientRect();
+      const scale = last.width ? first.width / last.width : 1;
       setNavH(header.getBoundingClientRect().height);
       setDock({
         left: 0,
@@ -74,7 +70,7 @@ export function LogoLoader() {
             left: 0,
             top: 0,
             transformOrigin: "top left",
-            transform: `translate(${target.left}px, ${target.top}px) scale(1)`,
+            transform: `translate(${last.left}px, ${last.top}px) scale(1)`,
             transition: move,
             opacity: 0,
           });
@@ -83,19 +79,10 @@ export function LogoLoader() {
       });
     };
 
-    const onPop = (event: AnimationEvent) => {
-      if (event.animationName !== "logo-pop") return;
-      const name = float.querySelector(".logo-name span");
-      name?.addEventListener(
-        "transitionend",
-        (end) => {
-          if (end.propertyName !== "transform") return;
-          if (document.readyState === "complete") slideUp();
-          else window.addEventListener("load", slideUp, { once: true });
-        },
-        { once: true },
-      );
-      setPhase("named");
+    const onName = (event: AnimationEvent) => {
+      if (event.animationName !== "logo-name") return;
+      if (document.readyState === "complete") play();
+      else window.addEventListener("load", play, { once: true });
     };
 
     const onFade = (event: TransitionEvent) => {
@@ -103,19 +90,15 @@ export function LogoLoader() {
       finish();
     };
 
-    float.addEventListener("animationend", onPop);
+    float.addEventListener("animationend", onName);
     float.addEventListener("transitionend", onFade);
-    const frame = requestAnimationFrame(() => {
-      if (alive) setPhase("risen");
-    });
 
     return () => {
       alive = false;
-      cancelAnimationFrame(frame);
       window.clearTimeout(failSafe);
-      float.removeEventListener("animationend", onPop);
+      float.removeEventListener("animationend", onName);
       float.removeEventListener("transitionend", onFade);
-      window.removeEventListener("load", slideUp);
+      window.removeEventListener("load", play);
     };
   }, []);
 
@@ -134,8 +117,6 @@ export function LogoLoader() {
           className={[
             lockupClass,
             "logo-float is-play",
-            phase !== "down" ? "is-risen" : "",
-            phase === "named" || phase === "prep" || phase === "dock" ? "is-named" : "",
             phase === "prep" || phase === "dock" ? "is-settle" : "",
           ].join(" ")}
         >
