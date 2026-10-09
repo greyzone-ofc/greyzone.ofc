@@ -1,6 +1,7 @@
 import { ArrowRight } from "lucide-react";
 import { ButtonLink } from "@/components/ui/button-link";
 import { HeroReveal } from "./hero-reveal";
+import { HeroBackgroundMarquee } from "./hero-background-marquee";
 
 type Action = { href: string; label: string };
 
@@ -15,9 +16,10 @@ type HeroProps = {
 
 export function Hero({ eyebrow, title, body, primary, secondary, services }: HeroProps) {
   return (
-    <section aria-labelledby="hero-title" className="hero">
+    <section aria-labelledby="hero-title" className="hero relative overflow-hidden">
+      <HeroBackgroundMarquee />
       <HeroReveal>
-        <div className="flex flex-1 flex-col justify-center gap-6 py-16">
+        <div className="relative z-10 flex flex-1 flex-col justify-center gap-6 py-16">
           <p data-reveal className="text-subtitle font-bold tracking-wider text-ink uppercase">
             {eyebrow}
           </p>
@@ -36,7 +38,7 @@ export function Hero({ eyebrow, title, body, primary, secondary, services }: Her
             </ButtonLink>
           </div>
         </div>
-        <ol role="list" className="hero-services grid md:grid-cols-3">
+        <ol role="list" className="hero-services relative z-10 grid md:grid-cols-3">
           {services.map((service, index) => (
             <li key={service.title} data-reveal className="flex flex-col gap-1 py-6 md:px-6 md:first:pl-0">
               <span aria-hidden="true" className="text-ink">
