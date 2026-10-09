@@ -6,7 +6,7 @@ import { Menu, X } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
-import { links } from "./links";
+import { links, site } from "@/lib/site";
 
 gsap.registerPlugin(useGSAP);
 
@@ -54,9 +54,11 @@ export function Nav() {
     tl.reverse();
   }
 
-  useEffect(() => {
+  const [lastPath, setLastPath] = useState(pathname);
+  if (pathname !== lastPath) {
+    setLastPath(pathname);
     setShown(false);
-  }, [pathname]);
+  }
 
   useEffect(() => {
     if (!shown) return;
@@ -89,12 +91,12 @@ export function Nav() {
         <button
           type="button"
           className="menu-button"
+          aria-label="Menu"
           aria-expanded={shown}
           aria-controls="site-menu"
           onClick={() => setShown(true)}
         >
-          <Menu aria-hidden="true" size={18} strokeWidth={1.5} />
-          Menu
+          <Menu aria-hidden="true" size={24} strokeWidth={1.5} />
         </button>
       </div>
       {shown && (
@@ -130,8 +132,8 @@ export function Nav() {
             ))}
           </nav>
           <div className="nav-screen-foot">
-            <p>Websites. Software. AI. Automation.</p>
-            <p>Ahmedabad, Gujarat</p>
+            <p>{site.tagline}</p>
+            <p>{site.location}</p>
           </div>
         </div>
       )}

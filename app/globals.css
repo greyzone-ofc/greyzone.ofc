@@ -34,9 +34,32 @@
   --radius-button: 10px;
 }
 
+:root {
+  --header-h: 5rem;
+}
+
+html {
+  scroll-padding-top: var(--header-h);
+}
+
 :focus-visible {
   outline: 2px solid var(--color-black);
   outline-offset: 4px;
+}
+
+.skip-link {
+  position: absolute;
+  top: 0.5rem;
+  left: 0.5rem;
+  z-index: 90;
+  padding: 0.75rem 1rem;
+  background: var(--color-black);
+  color: var(--color-white);
+  transform: translateY(-200%);
+}
+
+.skip-link:focus {
+  transform: none;
 }
 
 .site {
@@ -56,10 +79,24 @@
 }
 
 .site > header,
-.site > footer {
+.site > main,
+.site > footer,
+.site > main > section {
   grid-column: full;
   display: grid;
   grid-template-columns: subgrid;
+}
+
+.site > main {
+  align-content: start;
+}
+
+.site > main > section > * {
+  grid-column: content;
+}
+
+.hero > div {
+  min-height: calc(100svh - var(--header-h));
 }
 
 .site > header {
@@ -80,6 +117,7 @@
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
+  min-height: var(--header-h);
   padding-block: 1rem;
   container-type: inline-size;
 }
@@ -113,19 +151,13 @@
 .menu-button {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
+  width: 3rem;
   height: 3rem;
-  padding-inline: 1rem;
-  border: 1px solid currentColor;
-  border-radius: 10px;
+  border: 0;
   background: transparent;
   color: inherit;
-  font: inherit;
-  font-size: 0.875rem;
-  line-height: 1.25rem;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
   cursor: pointer;
-  gap: 0.5rem;
 }
 
 .nav-screen {
