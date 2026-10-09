@@ -14,24 +14,28 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en">
-      <body className="flex min-h-screen flex-col bg-white text-body text-black">
-        <header className="flex flex-wrap items-center justify-between gap-4 border-b border-mist px-6 py-4">
-          <LogoLoader />
-          <Nav />
-        </header>
-        <div className="flex flex-1 flex-col">{children}</div>
-        <footer className="flex flex-wrap justify-between gap-4 border-t border-mist px-6 py-8 text-ink">
-          <div>
-            <p>Websites. Software. AI. Automation.</p>
-            <p>Ahmedabad, Gujarat</p>
+      <body className="site bg-white text-body text-black">
+        <header className="border-b border-mist">
+          <div className="flex flex-wrap items-center justify-between gap-4 py-4">
+            <LogoLoader />
+            <Nav />
           </div>
-          <nav aria-label="Footer" className="flex flex-wrap gap-x-6 gap-y-2">
-            {links.map((link) => (
-              <Link key={link.href} href={link.href}>
-                {link.label}
-              </Link>
-            ))}
-          </nav>
+        </header>
+        <div className="flex min-h-full flex-col">{children}</div>
+        <footer className="border-t border-mist text-ink">
+          <div className="flex flex-wrap justify-between gap-4 py-8">
+            <div>
+              <p>Websites. Software. AI. Automation.</p>
+              <p>Ahmedabad, Gujarat</p>
+            </div>
+            <nav aria-label="Footer" className="flex flex-wrap gap-x-6 gap-y-2">
+              {links.map((link) => (
+                <Link key={link.href} href={link.href}>
+                  {link.label}
+                </Link>
+              ))}
+            </nav>
+          </div>
         </footer>
       </body>
     </html>

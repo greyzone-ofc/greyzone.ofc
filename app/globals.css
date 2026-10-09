@@ -39,6 +39,34 @@
   outline-offset: 4px;
 }
 
+.site {
+  display: grid;
+  width: 100%;
+  min-height: 100vh;
+  grid-template-columns:
+    [full-start] minmax(1.5rem, 1fr)
+    [content-start] min(69rem, calc(100% - 3rem))
+    [content-end] minmax(1.5rem, 1fr)
+    [full-end];
+  grid-template-rows: auto 1fr auto;
+}
+
+.site > * {
+  grid-column: content;
+}
+
+.site > header,
+.site > footer {
+  grid-column: full;
+  display: grid;
+  grid-template-columns: subgrid;
+}
+
+.site > header > *,
+.site > footer > * {
+  grid-column: content;
+}
+
 .logo-lockup img {
   width: auto;
   height: 48px;

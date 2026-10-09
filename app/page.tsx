@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function Home() {
   return (
-    <main className="flex flex-1 flex-col justify-center gap-6 px-6 py-16">
+    <main className="flex flex-1 flex-col justify-center gap-6 py-16">
       <p className="text-subtitle font-bold tracking-wider text-ink uppercase">
         Web / AI / Automation
       </p>
