@@ -95,10 +95,6 @@ html {
   grid-column: content;
 }
 
-.hero > div {
-  min-height: calc(100svh - var(--header-h));
-}
-
 .site > header {
   position: sticky;
   top: 0;
@@ -256,32 +252,49 @@ html {
   line-height: 1.125rem;
 }
 
-.nav-slide {
+.roll {
   display: grid;
   overflow: hidden;
 }
 
-.nav-slide span {
+.roll > span {
   grid-area: 1 / 1;
   transition: transform 0.45s cubic-bezier(0.05, 0.7, 0.1, 1);
 }
 
-.nav-slide span:last-child {
+.roll > span:last-child {
   transform: translateY(100%);
 }
 
-.nav-screen nav a:hover .nav-slide span:first-child,
-.nav-screen nav a:focus-visible .nav-slide span:first-child {
+a:is(:hover, :focus-visible) .roll > span:first-child {
   transform: translateY(-100%);
 }
 
-.nav-screen nav a:hover .nav-slide span:last-child,
-.nav-screen nav a:focus-visible .nav-slide span:last-child {
+a:is(:hover, :focus-visible) .roll > span:last-child {
   transform: translateY(0);
 }
 
-.nav-screen nav a[aria-current="page"] .nav-slide span:first-child {
+.nav-screen nav a[aria-current="page"] .roll > span:first-child {
   text-decoration: underline;
+}
+
+.hero > .hero-inner {
+  min-height: calc(100svh - var(--header-h));
+}
+
+.hero-services {
+  border-top: 1px solid var(--color-mist);
+}
+
+.hero-services li + li {
+  border-top: 1px solid var(--color-mist);
+}
+
+@media (min-width: 48rem) {
+  .hero-services li + li {
+    border-top: 0;
+    border-left: 1px solid var(--color-mist);
+  }
 }
 
 @container (max-width: 40rem) {
@@ -291,7 +304,7 @@ html {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .nav-slide span {
+  .roll > span {
     transition: none;
   }
 }

@@ -124,7 +124,7 @@ export function Nav() {
                 href={link.href}
                 aria-current={pathname === link.href ? "page" : undefined}
               >
-                <span className="nav-slide">
+                <span className="roll">
                   <span>{link.label}</span>
                   <span aria-hidden="true">{link.label}</span>
                 </span>

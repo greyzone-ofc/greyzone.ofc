@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useRef, useState, type CSSProperties } from "react";
+import { revealPage } from "@/lib/intro";
 
 type Phase = "play" | "prep" | "dock" | "done";
 
@@ -30,8 +31,9 @@ export function LogoLoader() {
 
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      setPhase("done");
-      return;
+      revealPage();
+      const frame = requestAnimationFrame(() => setPhase("done"));
+      return () => cancelAnimationFrame(frame);
     }
 
     const float = floatRef.current;
@@ -42,6 +44,7 @@ export function LogoLoader() {
     const finish = () => {
       if (!alive) return;
       alive = false;
+      revealPage();
       setDock(undefined);
       setPhase("done");
     };
@@ -75,6 +78,7 @@ export function LogoLoader() {
             opacity: 0,
           });
           setPhase("dock");
+          revealPage();
         });
       });
     };

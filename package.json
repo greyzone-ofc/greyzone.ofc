@@ -6,7 +6,11 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "typecheck": "next typegen && tsc --noEmit"
+  },
+  "engines": {
+    "node": "24.x"
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",
