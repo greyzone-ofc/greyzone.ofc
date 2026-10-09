@@ -3,10 +3,12 @@
 import Link from "next/link";
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 
-type Phase = "down" | "risen" | "named" | "prep" | "dock" | "tone" | "done";
+type Phase = "down" | "risen" | "named" | "prep" | "dock" | "done";
 
 const lockupClass =
   "logo-lockup inline-flex h-12 items-center gap-2 text-body tracking-button uppercase";
+
+const move = "transform 0.8s cubic-bezier(0.05, 0.7, 0.1, 1), opacity 0.38s ease 0.58s";
 
 function Mark() {
   return (
@@ -36,28 +38,33 @@ export function LogoLoader() {
     }
 
     let alive = true;
-    const timers: number[] = [];
-    const later = (fn: () => void, ms: number) => {
-      timers.push(window.setTimeout(() => { if (alive) fn(); }, ms));
+    const float = floatRef.current;
+    const home = homeRef.current;
+    if (!float || !home) return;
+
+    const finish = () => {
+      if (!alive) return;
+      alive = false;
+      setDock(undefined);
+      setPhase("done");
     };
 
-    const frame = requestAnimationFrame(() => {
-      if (alive) setPhase("risen");
-    });
+    const failSafe = window.setTimeout(finish, 3550);
 
     const slideUp = () => {
-      const home = homeRef.current;
-      const float = floatRef.current;
-      const header = home?.closest("header");
-      if (!home || !float || !header) return;
+      const header = home.closest("header");
+      if (!header) return finish();
       const first = float.getBoundingClientRect();
       const target = home.getBoundingClientRect();
+      const scale = target.width ? first.width / target.width : 1;
       setNavH(header.getBoundingClientRect().height);
       setDock({
         left: 0,
         top: 0,
-        transform: `translate(${first.left}px, ${first.top}px)`,
+        transformOrigin: "top left",
+        transform: `translate(${first.left}px, ${first.top}px) scale(${scale})`,
         transition: "none",
+        opacity: 1,
       });
       setPhase("prep");
       requestAnimationFrame(() => {
@@ -66,34 +73,49 @@ export function LogoLoader() {
           setDock({
             left: 0,
             top: 0,
-            transform: `translate(${target.left}px, ${target.top}px)`,
-            transition: "transform 0.55s ease-out, opacity 0.5s ease",
+            transformOrigin: "top left",
+            transform: `translate(${target.left}px, ${target.top}px) scale(1)`,
+            transition: move,
+            opacity: 0,
           });
           setPhase("dock");
-          later(() => setPhase("tone"), 550);
-          later(() => {
-            setDock(undefined);
-            setPhase("done");
-          }, 1100);
         });
       });
     };
 
-    const reveal = () => {
-      later(() => {
-        setPhase("named");
-        later(slideUp, 450);
-      }, 650);
+    const onPop = (event: AnimationEvent) => {
+      if (event.animationName !== "logo-pop") return;
+      const name = float.querySelector(".logo-name span");
+      name?.addEventListener(
+        "transitionend",
+        (end) => {
+          if (end.propertyName !== "transform") return;
+          if (document.readyState === "complete") slideUp();
+          else window.addEventListener("load", slideUp, { once: true });
+        },
+        { once: true },
+      );
+      setPhase("named");
     };
 
-    if (document.readyState === "complete") reveal();
-    else window.addEventListener("load", reveal);
+    const onFade = (event: TransitionEvent) => {
+      if (event.target !== float || event.propertyName !== "opacity") return;
+      finish();
+    };
+
+    float.addEventListener("animationend", onPop);
+    float.addEventListener("transitionend", onFade);
+    const frame = requestAnimationFrame(() => {
+      if (alive) setPhase("risen");
+    });
 
     return () => {
       alive = false;
       cancelAnimationFrame(frame);
-      timers.forEach((id) => window.clearTimeout(id));
-      window.removeEventListener("load", reveal);
+      window.clearTimeout(failSafe);
+      float.removeEventListener("animationend", onPop);
+      float.removeEventListener("transitionend", onFade);
+      window.removeEventListener("load", slideUp);
     };
   }, []);
 
@@ -113,8 +135,8 @@ export function LogoLoader() {
             lockupClass,
             "logo-float is-play",
             phase !== "down" ? "is-risen" : "",
-            phase !== "down" && phase !== "risen" ? "is-named" : "",
-            phase === "tone" ? "is-tone" : "",
+            phase === "named" || phase === "prep" || phase === "dock" ? "is-named" : "",
+            phase === "prep" || phase === "dock" ? "is-settle" : "",
           ].join(" ")}
         >
           <Mark />
@@ -122,11 +144,7 @@ export function LogoLoader() {
       )}
       {playing && (
         <div
-          className={[
-            "logo-curtain",
-            phase === "dock" || phase === "tone" ? "is-docked" : "",
-            phase === "tone" ? "is-tone" : "",
-          ].join(" ")}
+          className={phase === "dock" ? "logo-curtain is-docked" : "logo-curtain"}
           style={{ "--nav-h": `${navH}px` } as CSSProperties}
         />
       )}
