@@ -1,7 +1,6 @@
 export const links = [
+  { href: "/projects", label: "Projects" },
+  { href: "/industries", label: "Industries" },
   { href: "/services", label: "Services" },
-  { href: "/work", label: "Work" },
-  { href: "/studio", label: "Studio" },
-  { href: "/journal", label: "Journal" },
   { href: "/contact", label: "Contact" },
 ];

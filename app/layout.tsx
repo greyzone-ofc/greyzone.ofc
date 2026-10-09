@@ -16,7 +16,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html lang="en">
       <body className="site bg-white text-body text-black">
         <header className="border-b border-mist">
-          <div className="flex flex-wrap items-center justify-between gap-4 py-4">
+          <div className="header-bar">
             <LogoLoader />
             <Nav />
           </div>
@@ -30,9 +30,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             </div>
             <nav aria-label="Footer" className="flex flex-wrap gap-x-6 gap-y-2">
               {links.map((link) => (
-                <Link key={link.href} href={link.href}>
-                  {link.label}
-                </Link>
+              <Link key={link.href} href={link.href} className="inline-flex min-h-6 items-center">
+                {link.label}
+              </Link>
               ))}
             </nav>
           </div>

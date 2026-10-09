@@ -21,7 +21,7 @@ export default function Home() {
           Start a project
         </Link>
         <Link
-          href="/work"
+          href="/projects"
           className="inline-flex h-12 items-center rounded-button border border-black px-5 text-button font-bold tracking-button uppercase"
         >
           See our work
