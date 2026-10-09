@@ -115,33 +115,6 @@ html {
   gap: 1rem;
   min-height: var(--header-h);
   padding-block: 1rem;
-  container-type: inline-size;
-}
-
-.header-actions {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 1.5rem;
-}
-
-.header-links {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  column-gap: 1.5rem;
-  row-gap: 0.5rem;
-}
-
-.header-links a {
-  display: inline-flex;
-  align-items: center;
-  min-height: 1.5rem;
-}
-
-.header-links a[aria-current="page"] {
-  text-decoration: underline;
 }
 
 .menu-button {
@@ -152,14 +125,79 @@ html {
   height: 3rem;
   border: 0;
   background: transparent;
-  color: inherit;
   cursor: pointer;
 }
 
+/* White plus difference reads black on the white header and white over the menu panel. */
+.header-bar > a.logo-lockup,
+.menu-button {
+  color: #fff;
+  mix-blend-mode: difference;
+}
+
+.header-bar > a.logo-lockup img {
+  filter: brightness(0) invert(1);
+}
+
+.header-bar > a.logo-lockup:focus-visible,
+.menu-button:focus-visible {
+  outline-color: #fff;
+}
+
+.menu-icon {
+  position: relative;
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.menu-icon > span {
+  position: absolute;
+  top: calc(50% - 0.75px);
+  left: 0;
+  width: 100%;
+  height: 1.5px;
+  border-radius: 1px;
+  background: currentColor;
+  transition:
+    translate 0.2s ease 0.2s,
+    rotate 0.2s ease,
+    opacity 0s linear 0.2s;
+}
+
+.menu-icon > span:first-child {
+  translate: 0 -6px;
+}
+
+.menu-icon > span:last-child {
+  translate: 0 6px;
+}
+
+[aria-expanded="true"] > .menu-icon > span {
+  translate: 0 0;
+  transition:
+    translate 0.2s ease,
+    rotate 0.2s ease 0.2s,
+    opacity 0s linear 0.2s;
+}
+
+[aria-expanded="true"] > .menu-icon > span:first-child {
+  rotate: 45deg;
+}
+
+[aria-expanded="true"] > .menu-icon > span:nth-child(2) {
+  opacity: 0;
+}
+
+[aria-expanded="true"] > .menu-icon > span:last-child {
+  rotate: -45deg;
+}
+
+/* Below the header's logo and button, above its white background. */
 .nav-screen {
   position: fixed;
   inset: 0;
-  z-index: 80;
+  z-index: -1;
+  padding-top: calc(var(--header-h) + 1px);
   display: flex;
   flex-direction: column;
   background: #0a0a0a;
@@ -170,47 +208,9 @@ html {
   outline-color: #fff;
 }
 
-.menu-close {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 3rem;
-  height: 3rem;
-  border: 0;
-  background: transparent;
-  color: #fff;
-  cursor: pointer;
-}
-
-.nav-screen-bar,
 .nav-screen nav,
 .nav-screen-foot {
   padding-inline: max(1.5rem, calc((100% - 69rem) / 2));
-}
-
-.nav-screen-bar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  padding-block: 1rem;
-}
-
-.nav-screen-brand {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  color: #fff;
-  font-size: 1rem;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  text-decoration: none;
-}
-
-.nav-screen-brand img {
-  height: 48px;
-  width: auto;
-  filter: none;
 }
 
 .nav-screen nav {
@@ -297,14 +297,10 @@ a:is(:hover, :focus-visible) .roll > span:last-child {
   }
 }
 
-@container (max-width: 40rem) {
-  .header-links {
-    display: none;
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
-  .roll > span {
+  .roll > span,
+  .menu-icon > span,
+  [aria-expanded="true"] > .menu-icon > span {
     transition: none;
   }
 }

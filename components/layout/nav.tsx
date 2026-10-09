@@ -2,7 +2,6 @@
 
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
-import { Menu, X } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
@@ -12,7 +11,9 @@ gsap.registerPlugin(useGSAP);
 
 export function Nav() {
   const pathname = usePathname();
+  const [open, setOpen] = useState(false);
   const [shown, setShown] = useState(false);
+  const buttonRef = useRef<HTMLButtonElement>(null);
   const screenRef = useRef<HTMLDivElement>(null);
   const timeline = useRef<gsap.core.Timeline | null>(null);
 
@@ -28,11 +29,11 @@ export function Nav() {
         return;
       }
       const tl = gsap.timeline({ paused: true });
-      tl.fromTo(screen, { yPercent: 100 }, { yPercent: 0, duration: 0.6, ease: "power3.out" }).fromTo(
+      tl.fromTo(screen, { yPercent: 100 }, { yPercent: 0, duration: 0.8, ease: "power3.inOut" }).fromTo(
         rows,
         { y: 20, autoAlpha: 0 },
         { y: 0, autoAlpha: 1, duration: 0.45, stagger: 0.06, ease: "power3.out" },
-        0.15,
+        0.45,
       );
       timeline.current = tl;
       tl.play();
@@ -43,7 +44,13 @@ export function Nav() {
     { dependencies: [shown], scope: screenRef },
   );
 
+  function openMenu() {
+    setOpen(true);
+    setShown(true);
+  }
+
   function closeMenu() {
+    setOpen(false);
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const tl = timeline.current;
     if (!tl || reduce) {
@@ -57,72 +64,55 @@ export function Nav() {
   const [lastPath, setLastPath] = useState(pathname);
   if (pathname !== lastPath) {
     setLastPath(pathname);
+    setOpen(false);
     setShown(false);
   }
 
   useEffect(() => {
     if (!shown) return;
+    const behind = document.querySelectorAll<HTMLElement>(".site > main, .site > footer");
     const previous = document.body.style.overflow;
     document.body.style.overflow = "hidden";
+    behind.forEach((el) => (el.inert = true));
     const onKey = (event: KeyboardEvent) => {
-      if (event.key === "Escape") closeMenu();
+      if (event.key !== "Escape") return;
+      closeMenu();
+      buttonRef.current?.focus();
     };
     window.addEventListener("keydown", onKey);
     return () => {
       document.body.style.overflow = previous;
+      behind.forEach((el) => (el.inert = false));
       window.removeEventListener("keydown", onKey);
     };
   }, [shown]);
 
   return (
     <>
-      <div className="header-actions">
-        <nav aria-label="Primary" className="header-links">
-          {links.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              aria-current={pathname === link.href ? "page" : undefined}
-            >
-              {link.label}
-            </Link>
-          ))}
-        </nav>
-        <button
-          type="button"
-          className="menu-button"
-          aria-label="Menu"
-          aria-expanded={shown}
-          aria-controls="site-menu"
-          onClick={() => setShown(true)}
-        >
-          <Menu aria-hidden="true" size={24} strokeWidth={1.5} />
-        </button>
-      </div>
+      <button
+        ref={buttonRef}
+        type="button"
+        className="menu-button"
+        aria-label="Menu"
+        aria-expanded={open}
+        aria-controls="site-menu"
+        onClick={open ? closeMenu : openMenu}
+      >
+        <span aria-hidden="true" className="menu-icon">
+          <span />
+          <span />
+          <span />
+        </span>
+      </button>
       {shown && (
-        <div
-          id="site-menu"
-          ref={screenRef}
-          role="dialog"
-          aria-modal="true"
-          aria-label="Menu"
-          className="nav-screen"
-        >
-          <div className="nav-screen-bar">
-            <Link href="/" className="nav-screen-brand">
-              <img src="/SYMBOL_Dark.png" alt="" />
-              Greyzone.
-            </Link>
-            <button type="button" className="menu-close" aria-label="Close" onClick={closeMenu}>
-              <X aria-hidden="true" size={24} strokeWidth={1.5} />
-            </button>
-          </div>
+        <div id="site-menu" ref={screenRef} className="nav-screen">
           <nav aria-label="Menu">
             {links.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
                 aria-current={pathname === link.href ? "page" : undefined}
+                onClick={closeMenu}
               >
                 <span className="roll">
                   <span>{link.label}</span>
