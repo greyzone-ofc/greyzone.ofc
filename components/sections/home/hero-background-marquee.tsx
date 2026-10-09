@@ -71,7 +71,7 @@ export function HeroBackgroundMarquee() {
 
       // Positions
       const positions = ROW_DATA.map((row, i) => -widths[i] * (row.initialOffsetPercent / 100));
-      const quickSetters = tracks.map((t) => (t ? gsap.quickSetter(t, "x", "px") : () => {}));
+      const quickSetters = tracks.map((t) => (t ? gsap.quickSetter(t, "x", "px") : () => { }));
 
       const tick = () => {
         for (let i = 0; i < ROW_DATA.length; i++) {
@@ -108,7 +108,7 @@ export function HeroBackgroundMarquee() {
       ref={containerRef}
       aria-hidden="true"
       style={{ gridColumn: "full" }}
-      className="pointer-events-none absolute -inset-y-12 inset-x-0 -z-10 select-none overflow-hidden flex flex-col justify-between h-[calc(100%+6rem)] w-full opacity-80"
+      className="pointer-events-none absolute -inset-y-12 inset-x-0 -z-10 select-none overflow-hidden flex flex-col justify-between h-[calc(100%+6rem)] w-full opacity-80 [mask-image:linear-gradient(to_bottom,white_0%,transparent_100%)]"
     >
       {ROW_DATA.map((row, index) => (
         <div
@@ -126,19 +126,19 @@ export function HeroBackgroundMarquee() {
               ref={(el) => {
                 setRefs.current[index] = el;
               }}
-              className="flex items-center gap-4 pr-4 font-black uppercase tracking-tighter text-mist text-[10vw] sm:text-[11vw] lg:text-[12vw] 2xl:text-[13vw] leading-[0.74]"
+              className="flex items-center gap-4 pr-4 font-black uppercase tracking-tighter text-mist text-[120px] leading-[0.74]"
             >
               <span>{row.text}</span>
             </div>
             <div
               aria-hidden="true"
-              className="flex items-center gap-4 pr-4 font-black uppercase tracking-tighter text-mist text-[10vw] sm:text-[11vw] lg:text-[12vw] 2xl:text-[13vw] leading-[0.74]"
+              className="flex items-center gap-4 pr-4 font-black uppercase tracking-tighter text-mist text-[120px] leading-[0.74]"
             >
               <span>{row.text}</span>
             </div>
             <div
               aria-hidden="true"
-              className="flex items-center gap-4 pr-4 font-black uppercase tracking-tighter text-mist text-[10vw] sm:text-[11vw] lg:text-[12vw] 2xl:text-[13vw] leading-[0.74]"
+              className="flex items-center gap-4 pr-4 font-black uppercase tracking-tighter text-mist text-[120px] leading-[0.74]"
             >
               <span>{row.text}</span>
             </div>

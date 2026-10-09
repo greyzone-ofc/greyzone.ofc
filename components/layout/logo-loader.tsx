@@ -6,18 +6,46 @@ import { revealPage } from "@/lib/intro";
 
 type Phase = "play" | "prep" | "dock" | "done";
 
-const lockupClass =
-  "logo-lockup inline-flex h-12 items-center gap-2 text-body tracking-button uppercase";
+const lockupClass = "logo-lockup inline-flex h-14 items-center";
 
 const move = "transform 0.8s cubic-bezier(0.05, 0.7, 0.1, 1), opacity 0.38s ease 0.58s";
 
-function Mark() {
+interface MarkProps {
+  variant?: "dark" | "light" | "auto";
+}
+
+function Mark({ variant = "auto" }: MarkProps) {
   return (
     <>
-      <img src="/SYMBOL_Dark.png" alt="" />
-      <span className="logo-name">
-        <span>Greyzone.</span>
-      </span>
+      {variant === "dark" ? (
+        <img
+          src="/SYMBOL_Dark_NoBG.png"
+          alt="Greyzone"
+          className="logo-symbol logo-on-dark"
+        />
+      ) : variant === "light" ? (
+        /* Light logo for white background */
+        <img
+          src="/SYMBOL_Light_NoBG.png"
+          alt="Greyzone"
+          className="logo-symbol logo-on-light"
+        />
+      ) : (
+        <>
+          {/* Light logo for white background */}
+          <img
+            src="/SYMBOL_Light_NoBG.png"
+            alt="Greyzone"
+            className="logo-symbol logo-on-light"
+          />
+          {/* Dark logo for black background */}
+          <img
+            src="/SYMBOL_Dark_NoBG.png"
+            alt="Greyzone"
+            className="logo-symbol logo-on-dark"
+          />
+        </>
+      )}
     </>
   );
 }
@@ -83,8 +111,8 @@ export function LogoLoader() {
       });
     };
 
-    const onName = (event: AnimationEvent) => {
-      if (event.animationName !== "logo-name") return;
+    const onPop = (event: AnimationEvent) => {
+      if (event.animationName !== "logo-pop") return;
       if (document.readyState === "complete") play();
       else window.addEventListener("load", play, { once: true });
     };
@@ -94,13 +122,13 @@ export function LogoLoader() {
       finish();
     };
 
-    float.addEventListener("animationend", onName);
+    float.addEventListener("animationend", onPop);
     float.addEventListener("transitionend", onFade);
 
     return () => {
       alive = false;
       window.clearTimeout(failSafe);
-      float.removeEventListener("animationend", onName);
+      float.removeEventListener("animationend", onPop);
       float.removeEventListener("transitionend", onFade);
       window.removeEventListener("load", play);
     };
@@ -124,7 +152,7 @@ export function LogoLoader() {
             phase === "prep" || phase === "dock" ? "is-settle" : "",
           ].join(" ")}
         >
-          <Mark />
+          <Mark variant="dark" />
         </div>
       )}
       {playing && (

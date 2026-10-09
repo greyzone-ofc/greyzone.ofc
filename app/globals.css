@@ -62,6 +62,18 @@ html {
   transform: none;
 }
 
+/* Hide OS scrollbar globally — invisible but functional */
+html,
+body {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE/Edge */
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  display: none; /* Chrome/Safari/Opera */
+}
+
 .site {
   display: grid;
   width: 100%;
@@ -128,19 +140,34 @@ html {
   cursor: pointer;
 }
 
-/* White plus difference reads black on the white header and white over the menu panel. */
-.header-bar > a.logo-lockup,
-.menu-button {
-  color: #fff;
-  mix-blend-mode: difference;
+.header-bar > a.logo-lockup {
+  color: var(--color-black);
+  text-decoration: none;
 }
 
-.header-bar > a.logo-lockup img {
-  filter: brightness(0) invert(1);
+.menu-button {
+  color: var(--color-black);
 }
 
 .header-bar > a.logo-lockup:focus-visible,
 .menu-button:focus-visible {
+  outline-color: var(--color-black);
+}
+
+.header-bar:has([aria-expanded="true"]) > a.logo-lockup,
+[data-menu-open="true"] .header-bar > a.logo-lockup {
+  color: #fff;
+}
+
+.header-bar:has([aria-expanded="true"]) .menu-button,
+[data-menu-open="true"] .header-bar .menu-button {
+  color: #fff;
+}
+
+.header-bar:has([aria-expanded="true"]) > a.logo-lockup:focus-visible,
+.header-bar:has([aria-expanded="true"]) .menu-button:focus-visible,
+[data-menu-open="true"] .header-bar > a.logo-lockup:focus-visible,
+[data-menu-open="true"] .header-bar .menu-button:focus-visible {
   outline-color: #fff;
 }
 
@@ -282,21 +309,6 @@ a:is(:hover, :focus-visible) .roll > span:last-child {
   min-height: calc(100svh - var(--header-h));
 }
 
-.hero-services {
-  border-top: 1px solid var(--color-mist);
-}
-
-.hero-services li + li {
-  border-top: 1px solid var(--color-mist);
-}
-
-@media (min-width: 48rem) {
-  .hero-services li + li {
-    border-top: 0;
-    border-left: 1px solid var(--color-mist);
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
   .roll > span,
   .menu-icon > span,
@@ -305,22 +317,246 @@ a:is(:hover, :focus-visible) .roll > span:last-child {
   }
 }
 
-.logo-lockup img {
-  width: auto;
-  height: 48px;
-  filter: brightness(0);
+/* ─────────────────────────────────────────────────────────────────────────
+   SERVICES — exact port of reference demo CSS
+   TUNING: edit --card-side-margin / --card-height / --pin-top-base /
+   --pin-top-step / --flow-gap here and SCALE_STEP in services-stack.tsx.
+─────────────────────────────────────────────────────────────────────────── */
+
+:root {
+  --card-side-margin: 4.6vw;
+  --card-height:      64vh;
+  --card-radius:      2.1vw;
+  /* Clamp pin-top-base so cards NEVER go behind the sticky header.
+     max() picks whichever is larger: the header height or 7.5vh.     */
+  --pin-top-base:     max(var(--header-h), 7.5vh);
+  --pin-top-step:     4.2vh;
+  --flow-gap:         10vh;
 }
 
-.logo-float img {
+/* ── Section: must be display:block to allow sticky children ───────────── */
+/* (global .site > main > section sets display:grid which breaks sticky)   */
+.services-section {
+  display: block;
+  width: 100%;
+}
+
+/* ── Intro copywriting (scrolls normally above the sticky cards) ────────── */
+.services-intro {
+  /* Reduce top padding — the hero is directly above, so 26vh from the
+     standalone demo becomes just enough visual breathing room (4rem).    */
+  padding: 4rem max(1.5rem, calc((100% - 69rem) / 2)) 4rem;
+}
+
+.services-intro-eyebrow {
+  display: block;
+  font-size: max(0.8vw, 12px);
+  font-weight: 500;
+  color: var(--color-ink);
+  margin-bottom: 1.4vw;
+  letter-spacing: 0.02em;
+}
+
+.services-intro-heading {
+  margin: 0;
+  max-width: 62vw;
+  font-size: clamp(30px, 3.2vw, 62px);
+  font-weight: 500;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  color: var(--color-black);
+}
+
+.services-intro-muted {
+  color: var(--color-ink);
+}
+
+/* ── Stack wrapper ─────────────────────────────────────────────────────── */
+.services-stack {
+  display: block;
+  padding-bottom: 2vh;
+}
+
+/* ── Card — CSS sticky, exact demo formula ─────────────────────────────── */
+/* top = pin-top-base + i × pin-top-step                                   */
+/* JS reads getComputedStyle(card).top to get the resolved pixel value      */
+.services-card {
+  position: sticky;
+  top: calc(var(--pin-top-base) + var(--i, 0) * var(--pin-top-step));
+  height: var(--card-height);
+  min-height: 360px;
+  margin: 0 var(--card-side-margin) var(--flow-gap);
+  border-radius: var(--card-radius);
+  transform-origin: center top;
+  will-change: transform;
+  color: #fff;
+  padding: 3.5vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* ── Card title ────────────────────────────────────────────────────────── */
+.services-card-title {
+  margin: 0;
+  font-size: clamp(44px, 5.4vw, 104px);
+  font-weight: 400;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+}
+
+/* Second line of title (the <em> element) */
+.services-card-title em {
+  display: block;
+  font-style: normal;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+/* ── Tags ──────────────────────────────────────────────────────────────── */
+.services-card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5vw;
+  list-style: none;
+  margin: 0 0 1.6vw;
+  padding: 0;
+}
+
+.services-card-tags li {
+  font-size: max(0.85vw, 12px);
+  font-weight: 400;
+  padding: 0.5vw 0.9vw;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+/* ── Description ───────────────────────────────────────────────────────── */
+.services-card-desc {
+  display: flex;
+  gap: 0.7vw;
+  max-width: 55%;
+  font-size: max(1.15vw, 15px);
+  line-height: 1.3;
+  margin: 0;
+}
+
+.services-card-icon {
+  flex: none;
+  width: max(1.4vw, 18px);
+  height: max(1.4vw, 18px);
+  margin-top: 0.1em;
+  transform-origin: center;
+  will-change: transform;
+  animation: asterisk-radar 14s linear infinite;
+  transition: animation-duration 0.5s ease;
+}
+
+@keyframes asterisk-radar {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.services-card:hover .services-card-icon {
+  animation-duration: 4.5s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .services-card-icon {
+    animation: none;
+  }
+}
+
+/* ── Mobile ─────────────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  :root {
+    --card-side-margin: 4vw;
+    --card-height: 72vh;
+    --card-radius: 24px;
+    --pin-top-step: 3vh;
+  }
+
+  .services-intro {
+    padding-top: 20vh;
+  }
+
+  .services-intro-heading {
+    max-width: 100%;
+  }
+
+  .services-card {
+    padding: 22px;
+  }
+
+  .services-card-desc {
+    max-width: 100%;
+  }
+
+  .services-card-tags {
+    gap: 6px;
+  }
+
+  .services-card-tags li {
+    padding: 7px 11px;
+  }
+}
+
+/* ── Reduced motion: sticky still works, JS scale is skipped ────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .services-card {
+    will-change: auto;
+  }
+}
+
+/* ── Brand Logo lockup ─────────────────────────────────────────────────── */
+.logo-lockup img,
+.logo-symbol {
+  width: auto;
+  height: 56px;
+  object-fit: contain;
+  display: block;
   filter: none;
 }
 
-.logo-name {
-  overflow: hidden;
+/* Light logo for white background (SYMBOL_Light_NoBG.png) */
+.logo-symbol-light,
+.logo-on-light {
+  display: block !important;
 }
 
-.logo-name > span {
-  display: block;
+/* Dark logo for black/dark background (SYMBOL_Dark_NoBG.png) */
+.logo-symbol-dark,
+.logo-on-dark {
+  display: none !important;
+}
+
+/* Dark mode preferences removed to prevent overriding statically light header */
+
+/* Float intro loader on dark curtain always shows dark-background mark */
+.logo-float .logo-symbol-light,
+.logo-float .logo-on-light {
+  display: none !important;
+}
+.logo-float .logo-symbol-dark,
+.logo-float .logo-on-dark {
+  display: block !important;
+}
+
+/* Open navigation overlay state (#0a0a0a dark background) */
+.header-bar:has([aria-expanded="true"]) .logo-symbol-light,
+.header-bar:has([aria-expanded="true"]) .logo-on-light,
+[data-menu-open="true"] .header-bar .logo-symbol-light,
+[data-menu-open="true"] .header-bar .logo-on-light {
+  display: none !important;
+}
+.header-bar:has([aria-expanded="true"]) .logo-symbol-dark,
+.header-bar:has([aria-expanded="true"]) .logo-on-dark,
+[data-menu-open="true"] .header-bar .logo-symbol-dark,
+[data-menu-open="true"] .header-bar .logo-on-dark {
+  display: block !important;
 }
 
 .logo-float.is-play {
@@ -328,22 +564,11 @@ a:is(:hover, :focus-visible) .roll > span:last-child {
   z-index: 60;
   left: 50%;
   top: 50%;
-  color: #fff;
-  animation: logo-pop 0.75s cubic-bezier(0.05, 0.7, 0.1, 1) forwards;
+  animation: logo-pop 0.8s cubic-bezier(0.05, 0.7, 0.1, 1) forwards;
 }
 
-.logo-float.is-play .logo-name > span {
-  transform: translateX(-100%);
-  animation: logo-name 0.65s ease-out 0.75s forwards;
-}
-
-.logo-float.is-play.is-settle,
-.logo-float.is-play.is-settle .logo-name > span {
+.logo-float.is-play.is-settle {
   animation: none;
-}
-
-.logo-float.is-settle .logo-name > span {
-  transform: none;
 }
 
 @keyframes logo-pop {
@@ -352,14 +577,8 @@ a:is(:hover, :focus-visible) .roll > span:last-child {
     opacity: 0;
   }
   to {
-    transform: translate(-50%, -50%) scale(1.85);
+    transform: translate(-50%, -50%) scale(2.2);
     opacity: 1;
-  }
-}
-
-@keyframes logo-name {
-  to {
-    transform: translateX(0);
   }
 }
 

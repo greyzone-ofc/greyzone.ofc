@@ -70,6 +70,7 @@ export function Nav() {
 
   useEffect(() => {
     if (!shown) return;
+    document.documentElement.setAttribute("data-menu-open", "true");
     const behind = document.querySelectorAll<HTMLElement>(".site > main, .site > footer");
     const previous = document.body.style.overflow;
     document.body.style.overflow = "hidden";
@@ -81,6 +82,7 @@ export function Nav() {
     };
     window.addEventListener("keydown", onKey);
     return () => {
+      document.documentElement.removeAttribute("data-menu-open");
       document.body.style.overflow = previous;
       behind.forEach((el) => (el.inert = false));
       window.removeEventListener("keydown", onKey);
@@ -121,9 +123,18 @@ export function Nav() {
               </Link>
             ))}
           </nav>
-          <div className="nav-screen-foot">
-            <p>{site.tagline}</p>
-            <p>{site.location}</p>
+          <div className="nav-screen-foot flex flex-wrap items-center justify-between gap-4">
+            <div>
+              <img
+                src="/SYMBOL_Light_NoBG.png"
+                alt="Greyzone"
+                className="h-10 w-auto"
+              />
+            </div>
+            <div className="text-right sm:text-right">
+              <p>{site.tagline}</p>
+              <p>{site.location}</p>
+            </div>
           </div>
         </div>
       )}
