@@ -38,3 +38,113 @@
   outline: 2px solid var(--color-black);
   outline-offset: 4px;
 }
+
+.logo-mark {
+  position: relative;
+  display: inline-flex;
+  height: 48px;
+}
+
+.logo-mark img {
+  height: 48px;
+  width: auto;
+  transition: opacity 0.5s ease;
+}
+
+.logo-mark .on-dark {
+  opacity: 0;
+}
+
+.logo-mark .on-light {
+  position: absolute;
+  inset: 0;
+  filter: brightness(0);
+}
+
+.logo-name {
+  overflow: hidden;
+}
+
+.logo-name > span {
+  display: block;
+}
+
+.logo-lockup.is-play {
+  position: fixed;
+  z-index: 60;
+  left: 50%;
+  top: 50%;
+  color: #fff;
+  transform: translate(-50%, -50%);
+  transition: transform 0.4s ease-out, opacity 0.5s ease;
+}
+
+.logo-lockup.is-play .logo-mark {
+  transform: scale(0.4);
+  opacity: 0;
+}
+
+.logo-lockup.is-play.is-risen .logo-mark {
+  animation: logo-pop 0.62s ease forwards;
+}
+
+@keyframes logo-pop {
+  0% {
+    transform: scale(0.4);
+    opacity: 0;
+  }
+  45% {
+    transform: scale(1.85);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.logo-lockup.is-play:not(.is-tone) .on-dark {
+  opacity: 1;
+}
+
+.logo-lockup.is-play:not(.is-tone) .on-light {
+  opacity: 0;
+}
+
+.logo-lockup.is-play .logo-name > span {
+  transform: translateX(-100%);
+  transition: transform 0.45s ease-out;
+}
+
+.logo-lockup.is-play.is-named .logo-name > span {
+  transform: translateX(0);
+}
+
+.logo-lockup.is-play.is-tone {
+  opacity: 0;
+}
+
+.logo-curtain {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  background: #0a0a0a;
+  transition: transform 0.55s ease-out, background-color 0.5s ease, opacity 0.5s ease;
+}
+
+.logo-curtain.is-docked {
+  transform: translateY(calc(-100% + var(--nav-h)));
+}
+
+.logo-curtain.is-tone {
+  background: #fff;
+  opacity: 0;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .logo-curtain,
+  .logo-float {
+    display: none;
+  }
+}

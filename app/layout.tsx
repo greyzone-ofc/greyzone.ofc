@@ -2,10 +2,11 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import "./globals.css";
 import { links } from "./links";
+import { LogoLoader } from "./logo-loader";
 import { Nav } from "./nav";
 
 export const metadata: Metadata = {
-  title: "GREYZONE",
+  title: "Greyzone.",
   description:
     "We design and build websites, web applications, AI solutions, automation and custom software.",
 };
@@ -15,9 +16,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html lang="en">
       <body className="flex min-h-screen flex-col bg-white text-body text-black">
         <header className="flex flex-wrap items-center justify-between gap-4 border-b border-mist px-6 py-4">
-          <Link href="/" className="font-bold">
-            GREYZONE
-          </Link>
+          <LogoLoader />
           <Nav />
         </header>
         <div className="flex flex-1 flex-col">{children}</div>
