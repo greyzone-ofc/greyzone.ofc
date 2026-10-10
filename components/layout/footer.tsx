@@ -79,11 +79,11 @@ export function Footer() {
   }
 
   return (
-    <footer ref={scope} className="overflow-hidden pb-8 pt-16">
+    <footer ref={scope} className="overflow-hidden pb-6 pt-8 sm:pb-8 sm:pt-16">
       <div className="@container flex flex-col items-center">
         <p
           aria-hidden="true"
-          className="flex w-full justify-center overflow-hidden whitespace-nowrap text-[length:12cqw] font-black uppercase leading-none tracking-tighter text-mist"
+          className="flex w-full justify-center overflow-hidden whitespace-nowrap text-[length:18cqw] font-black uppercase leading-none tracking-tighter text-mist sm:text-[length:12cqw]"
         >
           {WORD.split("").map((letter, i) => (
             <span key={i} data-letter className="inline-block">
@@ -94,14 +94,14 @@ export function Footer() {
 
         <div
           data-card
-          className="relative z-10 -mt-[4cqw] flex w-full flex-col items-center gap-2 rounded-card bg-black px-6 pb-8 pt-20 text-center text-white sm:pt-12 [&_:focus-visible]:outline-white"
+          className="relative z-10 -mt-[2cqw] flex w-full flex-col items-center gap-2 rounded-card bg-black px-6 pb-6 pt-4 text-center text-white sm:-mt-[4cqw] sm:pb-8 sm:pt-12 [&_:focus-visible]:outline-white"
         >
-          <Link href="/" className="absolute left-4 top-4 inline-flex h-14 items-center">
+          <Link href="/" className="inline-flex h-14 items-center sm:absolute sm:left-4 sm:top-4">
             <img src={site.logo.dark} alt="Greyzone" className="h-14 w-auto" />
           </Link>
           <p className="max-w-[20ch] text-h3 font-bold md:text-h2">Tell us what you are trying to fix.</p>
           <p className="text-body text-grey">We will tell you what we would build.</p>
-          <div className="mt-4 flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-caption text-grey">
+          <div className="mt-2 flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-caption text-grey sm:mt-4 sm:gap-x-4 sm:gap-y-2">
             <span>© Greyzone</span>
             <Asterisk />
             <span>{site.location}</span>
@@ -112,15 +112,15 @@ export function Footer() {
 
         <div
           data-bar
-          className="relative z-0 flex w-[94%] flex-wrap items-center justify-between gap-4 rounded-b-card bg-graphite p-4 sm:px-6 [&_:focus-visible]:outline-white"
+          className="relative z-0 grid w-[94%] gap-2 rounded-b-card bg-graphite p-2 sm:flex sm:flex-wrap sm:items-center sm:justify-between sm:gap-4 sm:p-4 sm:px-6 [&_:focus-visible]:outline-white"
         >
-          <nav aria-label="Footer" className="flex flex-wrap gap-2">
+          <nav aria-label="Footer" className="grid grid-cols-2 gap-2 sm:flex sm:flex-wrap">
             {links.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
                 aria-current={pathname === link.href ? "page" : undefined}
-                className="group inline-flex h-12 items-center gap-2 rounded-button bg-mist px-5 text-button font-bold uppercase tracking-button text-black underline-offset-4 transition-colors hover:bg-white aria-[current=page]:underline"
+                className="group flex h-12 items-center justify-between gap-2 rounded-button bg-black px-4 text-body text-white underline-offset-4 transition-colors hover:bg-ink aria-[current=page]:underline sm:inline-flex sm:justify-start sm:bg-mist sm:px-5 sm:text-button sm:font-bold sm:uppercase sm:tracking-button sm:text-black sm:hover:bg-white"
               >
                 {link.label}
                 <span aria-hidden="true" className="relative size-4 overflow-hidden">
@@ -138,16 +138,20 @@ export function Footer() {
               </Link>
             ))}
           </nav>
-          <div className="flex flex-wrap gap-2">
-            <ButtonLink href="/contact" icon={<ArrowRight aria-hidden="true" size={16} strokeWidth={2} />}>
+          <div className="flex gap-2">
+            <ButtonLink
+              href="/contact"
+              className="flex-1 justify-center sm:flex-none"
+              icon={<ArrowRight aria-hidden="true" size={16} strokeWidth={2} />}
+            >
               Start a project
             </ButtonLink>
             <button
               type="button"
               onClick={toTop}
-              className="inline-flex h-12 items-center gap-2 rounded-button border border-white px-5 text-button font-bold uppercase tracking-button text-white transition-colors hover:bg-white hover:text-black"
+              className="inline-flex h-12 w-12 shrink-0 items-center justify-center gap-2 rounded-button border border-white text-button font-bold uppercase tracking-button text-white transition-colors hover:bg-white hover:text-black sm:w-auto sm:px-5"
             >
-              Back to top
+              <span className="sr-only sm:not-sr-only">Back to top</span>
               <ArrowUp aria-hidden="true" size={16} strokeWidth={2} />
             </button>
           </div>
