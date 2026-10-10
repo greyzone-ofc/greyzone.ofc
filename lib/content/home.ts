@@ -6,6 +6,20 @@ export const home = {
     primary: { href: "/contact", label: "Start a project" },
     secondary: { href: "/projects", label: "See our work" },
   },
+  projects: {
+    label: "Projects",
+    title: "Websites and software, built to be used.",
+    muted: "Digital products that solve real business problems.",
+    // Mock entries adapted from the brand guidelines' examples. Replace with real case studies.
+    items: [
+      { name: "Client portal", type: "Web application", summary: "A customer portal for a manufacturing team." },
+      { name: "Support assistant", type: "AI solution", summary: "Search across your documents and answer common questions." },
+      { name: "Invoice routing", type: "Automation", summary: "Automation that removes repeat work from accounts." },
+      { name: "Lead intake", type: "Website", summary: "One form that sends every enquiry to the right person." },
+      { name: "Weekly report", type: "Custom software", summary: "A report that builds itself before Monday starts." },
+      { name: "Ops automation", type: "Automation", summary: "From six steps to one, with a clear system behind it." },
+    ],
+  },
   services: [
     {
       id: "web",
