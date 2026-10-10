@@ -317,6 +317,47 @@ a:is(:hover, :focus-visible) .roll > span:last-child {
   }
 }
 
+/* ── Projects arc ──────────────────────────────────────────────────────── */
+/* Registered so getComputedStyle returns px; arc-carousel.tsx reads it.    */
+@property --arc-r {
+  syntax: "<length>";
+  inherits: true;
+  initial-value: 0px;
+}
+
+/* Narrow: a flat arc, copy sits below the cards. */
+.arc-frame {
+  --arc-r: 88cqw;
+  --arc-cy: calc(var(--arc-r) + 6rem);
+  --arc-h: calc(var(--arc-r) * 0.15 + 15rem);
+}
+
+/* Wide: a full ring, copy sits in its centre. */
+@container (width >= 48rem) {
+  .arc-frame {
+    --arc-r: min(44cqw, 480px);
+    --arc-cy: calc(var(--arc-r) + 10rem);
+    --arc-h: calc(var(--arc-r) * 1.4 + 18rem);
+  }
+}
+
+.arc-word {
+  animation: arc-word-in 0.25s ease both;
+}
+
+@keyframes arc-word-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .arc-word {
+    animation: none;
+  }
+}
+
 /* ─────────────────────────────────────────────────────────────────────────
    SERVICES — exact port of reference demo CSS
    TUNING: edit --card-side-margin / --card-height / --pin-top-base /
