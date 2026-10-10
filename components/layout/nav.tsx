@@ -101,6 +101,7 @@ export function Nav() {
         onClick={open ? closeMenu : openMenu}
       >
         <span aria-hidden="true" className="menu-icon">
+          {/* great */}
           <span />
           <span />
           <span />
