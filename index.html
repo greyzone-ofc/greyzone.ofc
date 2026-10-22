@@ -396,6 +396,59 @@
       }
     }
 
+    .theme-toggle:active {
+      transform: scale(.92)
+    }
+
+    /* ===== THEME CIRCULAR REVEAL (same point-of-origin animation as the menu) =====
+       Researched pattern (MDN / Chrome for Developers "Same-document view transitions",
+       Adam Argyle's GUI Challenge + nerdy.dev clip-path demo, Akash Hamirwasia):
+       the menu grows a real overlay with clip-path:circle() from the menu button's centre;
+       a theme swap has no overlay to grow — it recolours the whole page — so the View
+       Transitions API does the equivalent: snapshot the old theme, apply the new one,
+       snapshot it, then grow clip-path:circle() on the NEW snapshot (::view-transition-new)
+       from the toggle's centre to the farthest viewport corner, old snapshot underneath.
+       That animates two compositor images instead of transitioning every colour property
+       on every element for 60 frames (the repaint trap the menu's clip-path also avoids).
+       Rules are scoped by .theme-vt, added only for this transition, so any other view
+       transition keeps its defaults. Default cross-fade/blend is killed: the new theme
+       must be fully opaque inside the circle, the old fully visible outside it. */
+    :root.theme-vt::view-transition-old(root),
+    :root.theme-vt::view-transition-new(root) {
+      animation: none;
+      mix-blend-mode: normal
+    }
+
+    :root.theme-vt::view-transition-old(root) {
+      z-index: 1
+    }
+
+    :root.theme-vt::view-transition-new(root) {
+      z-index: 2147483646
+    }
+
+    /* the snapshots must be the finished themes, not a half-run .35s colour transition */
+    :root.theme-vt *,
+    :root.theme-vt *::after,
+    :root.theme-vt *::before {
+      transition: none !important
+    }
+
+    /* belt and braces with the JS guard: reduced-motion users never see the reveal,
+       even if a transition was already in flight when the OS setting changed */
+    @media (prefers-reduced-motion:reduce) {
+
+      ::view-transition-group(*),
+      ::view-transition-old(*),
+      ::view-transition-new(*) {
+        animation: none !important
+      }
+
+      .theme-toggle {
+        transition: none
+      }
+    }
+
     @media (max-width:640px) {
       .user-area .head-cta {
         display: none
@@ -4839,22 +4892,56 @@
   })();
 </script>
 <script>
-  /* ===== THEME TOGGLE =====
+  /* ===== THEME TOGGLE — circular reveal from the toggle, like the menu =====
      Two states only (Chrome guidance): follow the OS, or the opposite of it. Clicking pins that
      exact theme in localStorage; the head script restores it before first paint on the next load.
-     With nothing pinned, OS changes are followed live. */
+     With nothing pinned, OS changes are followed live — and never animated: only a user-initiated
+     click earns the reveal (Chrome / css-animation.com guidance).
+
+     Animation = the menu's, applied to the page itself. The menu sets --cx/--cy to its button's
+     centre and grows clip-path:circle(0 → 150%) over .8s cubic-bezier(.7,0,.2,1). Here
+     document.startViewTransition() snapshots old/new themes and the same circle, same duration
+     and easing, grows on ::view-transition-new(root) from this button's centre — driven via
+     WAAPI inside transition.ready (the pseudo-elements don't exist before it), with the exact
+     farthest-corner radius in px instead of the menu's blanket 150%, so no corner is left in
+     the old theme at the end. Origin is the button centre, not the pointer: keyboard
+     (Enter/Space) clicks report no useful pointer point, but always have a button centre.
+     Progressive enhancement throughout: no startViewTransition, or prefers-reduced-motion
+     (read live at click time, not cached at load), means an instant swap that still works. */
   (function () {
-    var btn = document.getElementById('themeToggle'), root = document.documentElement, mq = window.matchMedia('(prefers-color-scheme: dark)');
+    var btn = document.getElementById('themeToggle'), root = document.documentElement,
+      mq = window.matchMedia('(prefers-color-scheme: dark)'),
+      reduceMq = window.matchMedia('(prefers-reduced-motion: reduce)');
     if (!btn) return;
     function pinned() { var t = root.getAttribute('data-theme'); return t === 'dark' || t === 'light' ? t : null; }
     function effective() { return pinned() || (mq.matches ? 'dark' : 'light'); }
     function sync() { var next = effective() === 'dark' ? 'light' : 'dark'; btn.setAttribute('aria-label', 'Switch to ' + next + ' mode'); btn.title = 'Switch to ' + next + ' mode'; }
-    btn.addEventListener('click', function () {
-      var t = effective() === 'dark' ? 'light' : 'dark';
+    function apply(t) {
       root.setAttribute('data-theme', t);
       var m = document.querySelector('meta[name="color-scheme"]'); if (m) m.content = t;
       try { localStorage.setItem('greyzone-theme', t); } catch (e) { }
       sync();
+    }
+    btn.addEventListener('click', function () {
+      var t = effective() === 'dark' ? 'light' : 'dark';
+      if (reduceMq.matches || typeof document.startViewTransition !== 'function') { apply(t); return; }
+      var r = btn.getBoundingClientRect(),
+        x = r.left + r.width / 2, y = r.top + r.height / 2,
+        endRadius = Math.hypot(Math.max(x, window.innerWidth - x), Math.max(y, window.innerHeight - y)),
+        vt;
+      root.classList.add('theme-vt');
+      try { vt = document.startViewTransition(function () { apply(t); }); }
+      catch (e) { root.classList.remove('theme-vt'); apply(t); return; }
+      function cleanup() { root.classList.remove('theme-vt'); }
+      /* finished settles after our WAAPI clip (or after a newer click skips this transition);
+         ready can reject when a transition is skipped — the theme has still been applied */
+      if (vt.finished && vt.finished.then) vt.finished.then(cleanup, cleanup);
+      if (vt.ready && vt.ready.then) vt.ready.then(function () {
+        root.animate(
+          { clipPath: ['circle(0px at ' + x + 'px ' + y + 'px)', 'circle(' + endRadius + 'px at ' + x + 'px ' + y + 'px)'] },
+          { duration: 800, easing: 'cubic-bezier(.7,0,.2,1)', pseudoElement: '::view-transition-new(root)' }
+        );
+      }, function () { });
     });
     if (mq.addEventListener) mq.addEventListener('change', function () { if (!pinned()) sync(); });
     sync();
