@@ -1,0 +1,45 @@
+@import "tailwindcss";
+@import "./site.css";
+
+/* GREYZONE design tokens — single source of truth (Tailwind v4 @theme).
+   Generates utilities like text-signal, bg-mist, font-serif2 and CSS vars. */
+@theme {
+  --color-ink: #0A0A0A;
+  --color-paper: #FFFFFF;
+  --color-signal: #D1162C;
+  --color-signal-deep: #9E0F20;
+  --color-grey: #868A90;
+  --color-graphite: #1C1D1F;
+  --color-mist: #F4F4F2;
+  --font-sans: "Figtree", "Helvetica Neue", Helvetica, Arial, system-ui, sans-serif;
+  --font-serif2: "Fraunces", Georgia, "Times New Roman", serif;
+  --spacing-gutter: clamp(16px, 5vw, 77px);
+  --breakpoint-xs: 25rem;
+  --ease-out-fluid: cubic-bezier(.2, .7, .2, 1);
+  --ease-menu: cubic-bezier(.7, 0, .2, 1);
+}
+
+/* Shared shell — replaces the max-width/gutter rule previously repeated in 7 sections */
+@utility shell {
+  width: 100%;
+  max-width: 2074px;
+  margin-inline: auto;
+  padding-inline: var(--pad);
+}
+@utility acc {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 560;
+  letter-spacing: -.01em;
+  color: var(--red-fg);
+}
+
+/* Accessibility: skip link (visible only on keyboard focus) */
+.skip-link{position:fixed;top:calc(var(--top) + env(safe-area-inset-top,0px));left:var(--pad);z-index:100;min-height:44px;display:inline-flex;align-items:center;padding:0 20px;border-radius:99px;background:var(--ink);color:var(--page);font-weight:700;transform:translateY(-300%);transition:transform .25s var(--ease-menu)}
+.skip-link:focus-visible{transform:none}
+.svg-sprite{position:absolute;width:0;height:0;overflow:hidden}
+/* Performance: never promote layers permanently; only animating elements opt in.
+   Reduced motion: kill non-essential animation globally (per-section rules already do this). */
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;scroll-behavior:auto !important}
+}
