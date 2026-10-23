@@ -32,9 +32,9 @@ export const metadata: Metadata = {
   description: siteDescription,
   robots: { index: true, follow: true },
   icons: {
-    icon: [{ url: '/icon.png', type: 'image/png' }],
-    shortcut: '/icon.png',
-    apple: '/apple-icon.png',
+    icon: [{ url: '/assets/logo.png', type: 'image/png' }],
+    shortcut: '/assets/logo.png',
+    apple: '/assets/logo.png',
   },
   openGraph: {
     type: 'website',

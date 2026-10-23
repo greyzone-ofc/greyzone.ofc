@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import { Acc } from '@/components/ui/Acc';
 import { processSteps } from '@/content/process';
 
@@ -9,11 +10,6 @@ const buildCardClass = [
   'b-c5',
   'b-c6',
 ] as const;
-
-function processSrcSet(image: string) {
-  const w600 = image.replace('w=900', 'w=600');
-  return `${w600} 600w, ${image} 900w`;
-}
 
 export function ProcessSection() {
   return (
@@ -58,15 +54,12 @@ export function ProcessSection() {
                     </div>
                   </div>
                   <div className="build-photo">
-                    <img
+                    <Image
                       src={step.image}
-                      srcSet={processSrcSet(step.image)}
-                      sizes="(max-width:620px) 86vw, 20rem"
+                      alt={step.alt}
                       width={900}
                       height={1100}
-                      loading="lazy"
-                      decoding="async"
-                      alt={step.alt}
+                      sizes="(max-width:620px) 86vw, 20rem"
                     />
                   </div>
                 </article>

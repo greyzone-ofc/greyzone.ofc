@@ -1,12 +1,7 @@
+import Image from 'next/image';
 import { Acc } from '@/components/ui/Acc';
 import { Icon } from '@/components/ui/Icon';
 import { journalPosts } from '@/content/journal';
-
-function journalSrcSet(image: string) {
-  const w600 = image.replace('w=1200', 'w=600');
-  const w900 = image.replace('w=1200', 'w=900');
-  return `${w600} 600w, ${w900} 900w, ${image} 1200w`;
-}
 
 export function JournalSection() {
   return (
@@ -24,15 +19,12 @@ export function JournalSection() {
           {journalPosts.map((post) => (
             <article className="post" id={post.id} key={post.id}>
               <div className="post-img">
-                <img
+                <Image
                   src={post.image}
-                  srcSet={journalSrcSet(post.image)}
-                  sizes="(max-width:900px) 100vw, 33vw"
+                  alt={post.alt}
                   width={1200}
                   height={750}
-                  loading="lazy"
-                  decoding="async"
-                  alt={post.alt}
+                  sizes="(max-width:900px) 100vw, 33vw"
                 />
               </div>
               <p className="post-meta">
