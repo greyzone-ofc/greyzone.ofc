@@ -28,10 +28,9 @@ export const studio: StudioContent = {
   title: 'One team, in Ahmedabad. Design and code under one',
   titleAccent: 'roof.',
   lede: 'GREYZONE is a small technology and design studio. The people who plan your project are the people who design and build it — nothing is handed off, and every decision is explained in plain language.',
-  videoUrl:
-    'https://videos.pexels.com/video-files/3129671/3129671-uhd_2560_1440_30fps.mp4',
-  videoPoster:
-    'https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=1200&auto=format&fit=crop',
+  /** Self-hosted from Pexels #3129671 (SD loop) — see public/assets attribution. */
+  videoUrl: '/assets/studio-collab.mp4',
+  videoPoster: '/assets/studio-poster.jpg',
   videoAriaLabel: 'The GREYZONE team collaborating in the studio',
   stats: [
     { value: '4', label: 'services, one consistent system' },

@@ -1,0 +1,18 @@
+Self-hosted media (stock placeholders until brand photography exists)
+
+studio-collab.mp4
+  Source: Pexels video #3129671
+  https://www.pexels.com/video/3129671/
+  License: Pexels License
+
+studio-poster.jpg
+  Source: Unsplash photo-1522071820081-009f0129c71c
+  License: Unsplash License
+
+process/step-01.jpg … step-06.jpg
+  Sources: Unsplash (workshop, planning, design, code, AI, analytics photos)
+  License: Unsplash License
+
+journal/speed.jpg, journal/ai.jpg, journal/design.jpg
+  Sources: Unsplash
+  License: Unsplash License

@@ -20,7 +20,7 @@
 
 @utility shell {
   width: 100%;
-  max-width: 2074px;
+  max-width: var(--site-max);
   margin-inline: auto;
   padding-inline: var(--pad);
 }

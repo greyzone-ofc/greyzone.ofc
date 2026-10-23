@@ -2,10 +2,11 @@ import type { Metadata, Viewport } from 'next';
 import { Figtree, Fraunces } from 'next/font/google';
 import Script from 'next/script';
 import './globals.css';
+import { siteUrl } from '@/modules/site/config';
 import {
+  buildOrgJsonLd,
   ogDescription,
   ogTitle,
-  orgJsonLd,
   siteDescription,
   siteTitle,
 } from '@/modules/site/metadata';
@@ -27,9 +28,15 @@ const fraunces = Fraunces({
   axes: ['opsz'],
 });
 
+const orgJsonLd = buildOrgJsonLd(siteUrl);
+
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: siteTitle,
   description: siteDescription,
+  alternates: {
+    canonical: '/',
+  },
   robots: { index: true, follow: true },
   icons: {
     icon: [{ url: '/assets/logo.png', type: 'image/png' }],
@@ -39,11 +46,13 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     siteName: 'GREYZONE',
+    url: '/',
     title: ogTitle,
     description: ogDescription,
+    locale: 'en_IN',
   },
   twitter: {
-    card: 'summary',
+    card: 'summary_large_image',
     title: ogTitle,
     description: ogDescription,
   },

@@ -15,21 +15,27 @@ export function initSiteEffects(): void {
         overlay.style.setProperty('--cx', (r.left + r.width / 2) + 'px');
         overlay.style.setProperty('--cy', (r.top + r.height / 2) + 'px');
       }
+      function setMenuOpen(open) {
+        overlay.classList.toggle('open', open);
+        overlay.setAttribute('aria-hidden', open ? 'false' : 'true');
+        overlay.inert = !open;
+        btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+        btn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+        header.inert = open; page.inert = open;
+        document.body.style.overflow = open ? 'hidden' : '';
+      }
       function openMenu() {
         if (isOpen()) return;
         setOrigin();
         void overlay.offsetWidth;            /* flush styles: first open animates like every later one */
-        overlay.classList.add('open'); btn.setAttribute('aria-expanded', 'true');
-        btn.setAttribute('aria-label', 'Close menu');
-        header.inert = true; page.inert = true; document.body.style.overflow = 'hidden';
+        setMenuOpen(true);
         requestAnimationFrame(function () { closeBtn.focus({ preventScroll: true }); });
       }
       function closeMenu() {
-        overlay.classList.remove('open'); btn.setAttribute('aria-expanded', 'false');
-        btn.setAttribute('aria-label', 'Open menu');
-        header.inert = false; page.inert = false; document.body.style.overflow = '';
+        setMenuOpen(false);
         btn.focus({ preventScroll: true });
       }
+      setMenuOpen(false);                    /* closed: hidden from AT until opened */
       setOrigin();                           /* origin ready before the first click */
       window.addEventListener('resize', setOrigin);
       btn.addEventListener('click', openMenu);
@@ -691,17 +697,24 @@ export function initSiteEffects(): void {
     var form = document.getElementById('briefForm'), btn = document.getElementById('briefBtn'),
       sum = document.getElementById('briefSummary');
     if (form && btn && sum) {
+      var mailto = '';
+      var email = form.getAttribute('data-email') || 'hello@greyzone.in';
       function picked(name) { var el = form.querySelector('input[name="' + name + '"]:checked'); return el ? el.value : null; }
       function sync() {
         var type = picked('btype'), budget = picked('bbudget');
         var subject = 'New project: ' + type;
         var body = 'Hi GREYZONE,\n\nI am building ' + type + '.' + (budget ? '\nBudget range: ' + budget + '.' : '') + '\n\nWhat it needs to do:\n';
-        btn.href = 'mailto:hello@greyzone.in?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+        mailto = 'mailto:' + email + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+        btn.setAttribute('data-mailto', mailto);
         sum.textContent = budget
           ? ('You are building ' + type + ' · budget ' + budget + '. We reply within 1 working day.')
           : ('You are building ' + type + '. Pick a budget range, or just send what you have.');
       }
       form.addEventListener('change', sync);
+      btn.addEventListener('click', function () {
+        var href = btn.getAttribute('data-mailto') || mailto;
+        if (href) window.location.href = href;
+      });
       sync();
     }
     var rv = [].slice.call(document.querySelectorAll('[data-rv]'));
