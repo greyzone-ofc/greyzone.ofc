@@ -1,2 +1,6 @@
 .vercel
 node_modules
+.next
+out
+*.tsbuildinfo
+.DS_Store

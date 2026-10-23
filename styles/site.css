@@ -1,8 +1,8 @@
 /* ===== TOKENS (mobile-first, fluid) ===== */
 :root {
   color-scheme: light dark;
-  --font: "Figtree", "Helvetica Neue", Helvetica, Arial, system-ui, sans-serif;
-  --font-serif: "Fraunces", Georgia, "Times New Roman", serif;
+  --font: var(--font-figtree), "Figtree", "Helvetica Neue", Helvetica, Arial, system-ui, sans-serif;
+  --font-serif: var(--font-fraunces), "Fraunces", Georgia, "Times New Roman", serif;
   /* editorial accent: one italic word per headline, never body text */
   --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   /* brand palette only (guidelines): white, black, signal, deep, grey, mist, paper, ink-grey, graphite.
@@ -1042,11 +1042,23 @@ header.is-hidden {
   pointer-events: none
 }
 
+/* Pointer glow: ink in light mode, soft white in dark (matches canvas accents). */
 .hero-glow {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background: radial-gradient(560px circle at var(--mx, 72%) var(--my, 28%), rgba(209, 22, 44, .16), transparent 62%), radial-gradient(700px circle at 12% 88%, rgba(255, 255, 255, .05), transparent 60%)
+  background: radial-gradient(560px circle at var(--mx, 72%) var(--my, 28%), rgba(10, 10, 10, .16), transparent 62%), radial-gradient(700px circle at 12% 88%, rgba(255, 255, 255, .05), transparent 60%)
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .hero-glow {
+    background: radial-gradient(560px circle at var(--mx, 72%) var(--my, 28%), rgba(255, 255, 255, .12), transparent 62%), radial-gradient(700px circle at 12% 88%, rgba(255, 255, 255, .05), transparent 60%)
+  }
+}
+:root[data-theme="dark"] .hero-glow {
+  background: radial-gradient(560px circle at var(--mx, 72%) var(--my, 28%), rgba(255, 255, 255, .12), transparent 62%), radial-gradient(700px circle at 12% 88%, rgba(255, 255, 255, .05), transparent 60%)
+}
+:root[data-theme="light"] .hero-glow {
+  background: radial-gradient(560px circle at var(--mx, 72%) var(--my, 28%), rgba(10, 10, 10, .16), transparent 62%), radial-gradient(700px circle at 12% 88%, rgba(255, 255, 255, .05), transparent 60%)
 }
 
 .hero-copy {
