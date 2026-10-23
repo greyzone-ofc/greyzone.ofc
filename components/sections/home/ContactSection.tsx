@@ -1,7 +1,11 @@
 import { Acc } from '@/components/ui/Acc';
 import { Icon } from '@/components/ui/Icon';
+import { contact } from '@/content/contact';
 import { externalRel } from '@/modules/site/config';
-import { socialLinks } from '@/modules/site/navigation';
+import { contactEmail, socialLinks } from '@/modules/site/navigation';
+
+const email = contact.email || contactEmail;
+const mailtoBase = `mailto:${email}?subject=${encodeURIComponent('New project: a website')}`;
 
 export function ContactSection() {
   return (
@@ -10,127 +14,103 @@ export function ContactSection() {
       <div className="contact-stage">
         <div className="contact-inner">
           <div className="contact-main">
-            <div>
-              <span className="eyebrow">Contact</span>
+            <div className="contact-intro">
+              <span className="eyebrow">{contact.eyebrow}</span>
               <h2 id="contactTitle">
-                Have something to <Acc>build?</Acc>
+                {contact.titleBefore} <Acc>{contact.titleAccent}</Acc>
               </h2>
-              <p className="contact-lede">
-                Tell us what you are making, fixing or automating. We reply with
-                honest next steps, and we will tell you if we are not the right
-                fit.
-              </p>
-            </div>
-            <div className="contact-side">
-              <div
-                className="brief"
-                id="briefForm"
-                role="group"
-                aria-describedby="briefSummary"
-              >
-                <fieldset>
-                  <legend>What are you building?</legend>
-                  <div className="chips">
-                    <label className="chip-opt">
-                      <input
-                        type="radio"
-                        name="btype"
-                        value="a website"
-                        defaultChecked
-                      />
-                      <span>Website</span>
-                    </label>
-                    <label className="chip-opt">
-                      <input type="radio" name="btype" value="an application" />
-                      <span>Application</span>
-                    </label>
-                    <label className="chip-opt">
-                      <input
-                        type="radio"
-                        name="btype"
-                        value="AI and automation"
-                      />
-                      <span>AI and automation</span>
-                    </label>
-                    <label className="chip-opt">
-                      <input
-                        type="radio"
-                        name="btype"
-                        value="custom software"
-                      />
-                      <span>Custom software</span>
-                    </label>
-                    <label className="chip-opt">
-                      <input
-                        type="radio"
-                        name="btype"
-                        value="a project I am still defining"
-                      />
-                      <span>Not sure yet</span>
-                    </label>
-                  </div>
-                </fieldset>
-                <fieldset>
-                  <legend>Budget range</legend>
-                  <div className="chips">
-                    <label className="chip-opt">
-                      <input
-                        type="radio"
-                        name="bbudget"
-                        value="under ₹1 lakh"
-                      />
-                      <span>Under ₹1 lakh</span>
-                    </label>
-                    <label className="chip-opt">
-                      <input type="radio" name="bbudget" value="₹1–3 lakh" />
-                      <span>₹1–3 lakh</span>
-                    </label>
-                    <label className="chip-opt">
-                      <input type="radio" name="bbudget" value="₹3–10 lakh" />
-                      <span>₹3–10 lakh</span>
-                    </label>
-                    <label className="chip-opt">
-                      <input
-                        type="radio"
-                        name="bbudget"
-                        value="₹10 lakh or more"
-                      />
-                      <span>₹10 lakh +</span>
-                    </label>
-                    <label className="chip-opt">
-                      <input type="radio" name="bbudget" value="not fixed yet" />
-                      <span>Not fixed yet</span>
-                    </label>
-                  </div>
-                </fieldset>
-                <p className="brief-summary" id="briefSummary" aria-live="polite">
-                  You are building a website. Pick a budget range, or just send
-                  what you have.
-                </p>
-                <button
-                  type="button"
-                  className="contact-btn"
-                  id="briefBtn"
-                  data-mailto="mailto:hello@greyzone.in?subject=New%20project%3A%20a%20website"
-                >
-                  Send brief by email
-                </button>
-                <p className="brief-note">
-                  We reply within 1 working day.{' '}
-                  <span className="brief-alt">
-                    Prefer plain email?{' '}
-                    <a href="mailto:hello@greyzone.in">hello@greyzone.in</a>
-                  </span>
+              <p className="contact-lede">{contact.lede}</p>
+              <div className="contact-channels">
+                <a className="contact-mail" href={`mailto:${email}`}>
+                  {email}
+                  <Icon id="i-arrow" className="ic" />
+                </a>
+                <p className="contact-meta-line">
+                  {contact.channels.map((channel, i) => (
+                    <span key={channel.label}>
+                      {i > 0 ? <span aria-hidden="true"> · </span> : null}
+                      <span className="contact-meta-item">
+                        <span className="contact-label">{channel.label}</span>{' '}
+                        {channel.href ? (
+                          <a href={channel.href}>{channel.value}</a>
+                        ) : (
+                          channel.value
+                        )}
+                      </span>
+                    </span>
+                  ))}
                 </p>
               </div>
             </div>
+
+            <div
+              className="brief"
+              id="briefForm"
+              role="group"
+              aria-describedby="briefSummary"
+              data-email={email}
+            >
+              <p className="brief-kicker">{contact.briefKicker}</p>
+              <fieldset>
+                <legend>{contact.typeLegend}</legend>
+                <div className="chips">
+                  {contact.types.map((opt) => (
+                    <label className="chip-opt" key={opt.value}>
+                      <input
+                        type="radio"
+                        name="btype"
+                        value={opt.value}
+                        defaultChecked={opt.defaultChecked}
+                      />
+                      <span>{opt.label}</span>
+                    </label>
+                  ))}
+                </div>
+              </fieldset>
+              <fieldset>
+                <legend>{contact.budgetLegend}</legend>
+                <div className="chips">
+                  {contact.budgets.map((opt) => (
+                    <label className="chip-opt" key={opt.value}>
+                      <input
+                        type="radio"
+                        name="bbudget"
+                        value={opt.value}
+                        defaultChecked={opt.defaultChecked}
+                      />
+                      <span>{opt.label}</span>
+                    </label>
+                  ))}
+                </div>
+              </fieldset>
+              <p
+                className="brief-summary"
+                id="briefSummary"
+                aria-live="polite"
+              >
+                {contact.summaryDefault}
+              </p>
+              <button
+                type="button"
+                className="contact-btn"
+                id="briefBtn"
+                data-mailto={mailtoBase}
+              >
+                {contact.ctaLabel}
+              </button>
+              <p className="brief-note">
+                {contact.replyNote}{' '}
+                <span className="brief-alt">
+                  {contact.plainEmailLead}{' '}
+                  <a href={`mailto:${email}`}>{email}</a>
+                </span>
+              </p>
+            </div>
           </div>
+
           <div className="contact-foot">
-            <p>
-              © 2026 GREYZONE · Ahmedabad, Gujarat · Working across India and
-              internationally
-            </p>
-            <ul className="menu-social">
+            <p className="contact-foot-copy">{contact.footCopy}</p>
+            <ul className="menu-social contact-foot-social">
               {socialLinks.map((s) => (
                 <li key={s.label}>
                   <a
@@ -145,7 +125,7 @@ export function ContactSection() {
               ))}
             </ul>
             <a className="contact-top-link" href="#page">
-              Back to top <Icon id="i-arrow" className="ic" />
+              {contact.topLabel} <Icon id="i-arrow" className="ic" />
             </a>
           </div>
         </div>

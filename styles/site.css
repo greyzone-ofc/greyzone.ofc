@@ -1847,6 +1847,9 @@ header.is-hidden {
 
 /* ===== CONTACT: circle reveal from bottom centre ===== */
 /* base = plain final section (no JS / reduced motion); the reveal is layered on below */
+/* Contact stage is a sticky full-viewport panel. Layout is height-first:
+   content must fit inside 100svh so the foot never intersects the brief
+   or the How-we-build curtain that follows. */
 .contact {
   --reveal: 115;
   position: relative;
@@ -1861,8 +1864,10 @@ header.is-hidden {
 
 .contact-stage {
   position: relative;
+  height: calc(var(--svh)*100);
   min-height: calc(var(--svh)*100);
   display: flex;
+  overflow: hidden;
   background: var(--red);
   color: #fff
 }
@@ -1870,29 +1875,40 @@ header.is-hidden {
 .contact-inner {
   flex: 1;
   min-width: 0;
+  min-height: 0;
   width: 100%;
   max-width: 2074px;
   margin: 0 auto;
   display: grid;
   grid-template-rows: minmax(0, 1fr) auto;
-  gap: clamp(28px, 4vw, 64px);
-  padding: var(--clear) var(--pad) clamp(22px, calc(var(--svh)*3.6), 44px);
-  transform-origin: 50% 100%
+  gap: clamp(10px, 1.6vw, 22px);
+  padding: var(--clear) var(--pad) clamp(10px, calc(var(--svh)*2), 22px);
+  padding-bottom: max(clamp(10px, calc(var(--svh)*2), 22px), env(safe-area-inset-bottom, 0px));
+  transform-origin: 50% 100%;
+  overflow: hidden
 }
 
 .contact-main {
-  align-self: center;
+  min-height: 0;
+  align-self: stretch;
   display: grid;
-  gap: clamp(22px, 3.4vw, 48px)
+  align-content: center;
+  gap: clamp(14px, 2.2vw, 28px)
+}
+
+.contact-intro {
+  display: grid;
+  align-content: start;
+  min-width: 0
 }
 
 .contact .eyebrow {
   color: rgba(255, 255, 255, .72);
-  margin-bottom: clamp(12px, 1.6vw, 20px)
+  margin-bottom: clamp(8px, 1.2vw, 14px)
 }
 
 .contact h2 {
-  font-size: clamp(2.3rem, 1.35rem + 4.4vw, 5.25rem);
+  font-size: clamp(1.85rem, 1.1rem + 3.2vw, 4.6rem);
   font-weight: 700;
   line-height: 1.02;
   letter-spacing: -.01em;
@@ -1901,40 +1917,42 @@ header.is-hidden {
 }
 
 .contact-lede {
-  margin-top: clamp(14px, 1.8vw, 22px);
+  margin-top: clamp(10px, 1.4vw, 18px);
   max-width: 32rem;
   font-size: var(--fs-lede);
-  line-height: 1.45;
+  line-height: 1.4;
   color: rgba(255, 255, 255, .85);
   text-wrap: pretty
 }
 
-.contact-side {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: clamp(14px, 2vw, 22px)
+.contact-channels {
+  display: grid;
+  gap: 8px;
+  margin-top: clamp(12px, 1.8vw, 22px);
+  max-width: 34rem
 }
 
 .contact-label {
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 700;
-  letter-spacing: .1em;
+  letter-spacing: .12em;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, .72)
+  color: rgba(255, 255, 255, .62)
 }
 
 .contact-mail {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
-  min-height: var(--tap);
-  font-size: clamp(1.25rem, .9rem + 1.35vw, 2rem);
+  gap: 8px;
+  width: fit-content;
+  max-width: 100%;
+  min-height: 40px;
+  font-size: clamp(1.05rem, .8rem + 1.1vw, 1.65rem);
   font-weight: 700;
   line-height: 1.15;
   overflow-wrap: anywhere;
   border-bottom: 2px solid rgba(255, 255, 255, .45);
-  padding-bottom: 6px;
+  padding-bottom: 4px;
   transition: border-color .25s
 }
 
@@ -1953,15 +1971,33 @@ header.is-hidden {
   transform: translate(3px, -3px)
 }
 
+.contact-meta-line {
+  margin: 0;
+  font-size: .82rem;
+  line-height: 1.35;
+  color: rgba(255, 255, 255, .78);
+  text-wrap: pretty
+}
+
+.contact-meta-line a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px
+}
+
+.contact-meta-item .contact-label {
+  margin-right: .15em
+}
+
 .contact-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 48px;
-  padding: 0 28px;
+  min-height: 44px;
+  padding: 0 24px;
   border-radius: var(--r-btn);
   font: inherit;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 700;
   letter-spacing: .06em;
   text-transform: uppercase;
@@ -1983,29 +2019,40 @@ header.is-hidden {
 }
 
 .contact-foot {
+  position: relative;
+  z-index: 2;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 18px 28px;
+  gap: 10px 16px;
   flex-wrap: wrap;
-  padding-top: clamp(18px, 2.4vw, 28px);
+  min-height: 0;
+  padding-top: 10px;
   border-top: 1px solid rgba(255, 255, 255, .35);
-  font-size: .85rem;
+  font-size: .8rem;
   color: rgba(255, 255, 255, .82)
 }
 
-.contact-foot p {
-  max-width: 36rem
+.contact-foot-copy {
+  margin: 0;
+  flex: 1 1 14rem;
+  max-width: 36rem;
+  text-wrap: pretty
+}
+
+.contact-foot-social {
+  flex: 0 0 auto
 }
 
 .contact-top-link {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  min-height: var(--tap);
+  min-height: 40px;
   font-weight: 700;
   color: #fff;
-  font-size: .85rem
+  font-size: .8rem;
+  margin-left: auto
 }
 
 .contact-top-link svg {
@@ -2014,75 +2061,135 @@ header.is-hidden {
   transform: rotate(-45deg)
 }
 
-@media (min-width:900px) {
+.contact-foot .menu-social {
+  gap: 8px
+}
+
+.contact-foot .menu-social a {
+  width: 34px;
+  height: 34px;
+  border-color: rgba(255, 255, 255, .45);
+  color: #fff
+}
+
+.contact-foot .menu-social a:hover {
+  background: rgba(255, 255, 255, .12);
+  border-color: #fff
+}
+
+/* stacked (phone / tablet portrait): brief is primary; intro stays short */
+@media (max-width:899px) {
   .contact-main {
-    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
-    align-items: end
+    grid-template-rows: auto minmax(0, 1fr);
+    align-content: stretch;
+    gap: 12px
   }
 
-  .contact-side {
-    justify-self: end;
-    width: 100%;
-    max-width: 26rem
-  }
-}
-
-@media (max-height:560px) {
-  .contact-lede {
+  .contact-lede,
+  .contact-meta-line,
+  .brief-kicker,
+  .brief-note,
+  .contact-foot-copy {
     display: none
+  }
+
+  .contact-channels {
+    margin-top: 10px;
+    gap: 0
   }
 
   .contact h2 {
-    font-size: clamp(1.7rem, 1.2rem + 3vw, 2.6rem)
-  }
-
-  .contact-inner {
-    gap: 16px
-  }
-
-  .contact-foot p {
-    display: none
-  }
-}
-
-/* short screens (most phones): the brief panel compacts so it never reaches the footer row */
-.contact-main {
-  min-height: 0
-}
-
-.contact-side {
-  min-height: 0
-}
-
-.contact-foot {
-  position: relative;
-  z-index: 2
-}
-
-@media (max-height:820px) {
-  .contact-lede {
-    display: none
-  }
-
-  .contact h2 {
-    font-size: clamp(1.85rem, 1.3rem + 3.2vw, 2.7rem)
-  }
-
-  .contact-inner {
-    gap: 14px
+    font-size: clamp(1.7rem, 1.15rem + 2.8vw, 2.6rem)
   }
 
   .brief {
+    align-self: start;
+    max-width: 40rem
+  }
+
+  .contact-foot {
+    flex-wrap: nowrap;
+    gap: 12px
+  }
+
+  .contact-top-link {
+    margin-left: 0
+  }
+}
+
+/* desktop / wide tablet: invitation | brief */
+@media (min-width:900px) {
+  .contact-main {
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    align-items: end;
+    gap: clamp(24px, 3.5vw, 56px)
+  }
+
+  .brief {
+    justify-self: end;
+    width: 100%;
+    max-width: 28rem
+  }
+}
+
+@media (min-width:1200px) {
+  .contact-main {
+    align-items: center
+  }
+
+  .brief {
+    max-width: 30rem
+  }
+
+  .contact h2 {
+    font-size: clamp(2.4rem, 1.4rem + 3.6vw, 5rem)
+  }
+}
+
+/* short + wide: force split so height stays under one screen */
+@media (min-width:700px) and (max-height:640px) {
+  .contact-main {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+    align-items: center;
+    gap: 16px
+  }
+
+  .contact-lede,
+  .contact-meta-line,
+  .brief-kicker,
+  .brief-note,
+  .contact-foot-copy {
+    display: none
+  }
+
+  .brief {
+    max-width: none;
+    justify-self: stretch
+  }
+}
+
+/* height compaction for sticky stage */
+@media (max-height:900px) {
+  .contact-lede {
+    display: none
+  }
+
+  .contact-inner {
     gap: 10px;
-    padding: 16px
+    padding-top: calc(var(--clear)*.85)
+  }
+
+  .brief {
+    gap: 8px;
+    padding: 14px
   }
 
   .brief legend {
-    margin-bottom: 6px
+    margin-bottom: 4px
   }
 
   .brief fieldset {
-    gap: 6px
+    gap: 4px
   }
 
   .chips {
@@ -2090,27 +2197,61 @@ header.is-hidden {
   }
 
   .chip-opt span {
-    min-height: 36px;
+    min-height: 34px;
     padding: 0 12px;
-    font-size: .82rem
+    font-size: .8rem
   }
 
   .brief-summary {
-    font-size: .98rem;
-    line-height: 1.4
+    font-size: .92rem;
+    line-height: 1.3
   }
 
   .brief .contact-btn {
-    min-height: 44px
-  }
-
-  .brief-note {
-    font-size: .8rem
+    min-height: 42px
   }
 }
 
-@media (max-height:680px) {
+@media (max-height:760px) {
+  .contact-meta-line,
+  .brief-kicker,
+  .brief-note,
   .brief-alt {
+    display: none
+  }
+
+  .brief-summary {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden
+  }
+
+  .contact-main {
+    gap: 10px
+  }
+
+  .contact-foot {
+    padding-top: 8px
+  }
+
+  .brief {
+    gap: 6px;
+    padding: 12px
+  }
+}
+
+@media (max-height:600px) {
+  .contact h2 {
+    font-size: clamp(1.4rem, 1rem + 2vw, 1.9rem)
+  }
+
+  .contact-mail {
+    font-size: 1rem;
+    min-height: 32px
+  }
+
+  .contact-foot-copy {
     display: none
   }
 
@@ -2123,31 +2264,22 @@ header.is-hidden {
     white-space: nowrap
   }
 
-  .contact-inner {
-    padding-top: calc(var(--clear)*.7);
-    gap: 10px
-  }
-
-  .contact-main {
-    gap: 12px
-  }
-
-  .contact-foot {
-    padding-top: 12px
-  }
-
-  .brief {
-    gap: 8px;
-    padding: 14px
+  .brief-kicker {
+    display: none
   }
 }
 
-/* phones: each chip group becomes one swipeable row, so the panel stays short */
-@media (max-width:640px) {
+/* phones: one swipeable chip row per fieldset — keeps panel short */
+@media (max-width:899px) {
   .brief .chips {
     flex-wrap: nowrap;
     overflow-x: auto;
-    padding-bottom: 6px;
+    overscroll-behavior-x: contain;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x proximity;
+    padding-bottom: 2px;
+    margin-inline: -2px;
+    padding-inline: 2px;
     scrollbar-width: none
   }
 
@@ -2156,7 +2288,8 @@ header.is-hidden {
   }
 
   .brief .chip-opt {
-    flex: none
+    flex: none;
+    scroll-snap-align: start
   }
 }
 
@@ -2742,28 +2875,44 @@ header.is-hidden {
 
 /* Contact: brief builder — real radios as chips, summary composes the email */
 .brief {
+  position: relative;
   background: #0A0A0A;
   border: 1px solid rgba(255, 255, 255, .16);
-  border-radius: 20px;
-  padding: clamp(18px, 2.4vw, 28px);
+  border-radius: 18px;
+  padding: clamp(14px, 2vw, 24px);
   display: grid;
-  gap: clamp(14px, 2vw, 20px);
-  width: 100%
+  gap: clamp(10px, 1.5vw, 16px);
+  width: 100%;
+  min-width: 0;
+  min-height: 0
+}
+
+.brief-kicker {
+  margin: 0;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, .55)
 }
 
 .brief fieldset {
   border: 0;
+  margin: 0;
+  padding: 0;
   display: grid;
-  gap: 10px
+  gap: 8px;
+  min-width: 0
 }
 
 .brief legend {
-  font-size: 12px;
+  padding: 0;
+  font-size: 11px;
   font-weight: 700;
   letter-spacing: .1em;
   text-transform: uppercase;
   color: rgba(255, 255, 255, .72);
-  margin-bottom: 10px
+  margin-bottom: 6px
 }
 
 .chips {
@@ -2788,11 +2937,11 @@ header.is-hidden {
 .chip-opt span {
   display: inline-flex;
   align-items: center;
-  min-height: 40px;
-  padding: 0 15px;
+  min-height: 38px;
+  padding: 0 14px;
   border: 1px solid rgba(255, 255, 255, .38);
   border-radius: 99px;
-  font-size: .88rem;
+  font-size: .86rem;
   font-weight: 700;
   color: #fff;
   transition: background .2s, color .2s, border-color .2s
@@ -2816,12 +2965,14 @@ header.is-hidden {
 }
 
 .brief-summary {
+  margin: 0;
   font-family: var(--font-serif);
   font-style: italic;
   font-weight: 500;
-  font-size: clamp(1rem, .95rem + .3vw, 1.12rem);
-  line-height: 1.45;
-  color: rgba(255, 255, 255, .88)
+  font-size: clamp(.95rem, .9rem + .25vw, 1.08rem);
+  line-height: 1.4;
+  color: rgba(255, 255, 255, .88);
+  text-wrap: pretty
 }
 
 .brief .contact-btn {
@@ -2829,8 +2980,9 @@ header.is-hidden {
 }
 
 .brief-note {
-  font-size: .85rem;
-  line-height: 1.5;
+  margin: 0;
+  font-size: .8rem;
+  line-height: 1.45;
   color: rgba(255, 255, 255, .75)
 }
 
@@ -2839,16 +2991,6 @@ header.is-hidden {
   font-weight: 700;
   text-decoration: underline;
   text-underline-offset: 3px
-}
-
-@media (max-width:899px) {
-  .brief {
-    gap: 12px
-  }
-
-  .chip-opt span {
-    min-height: 38px
-  }
 }
 
 /* Process: real photography in the same inset frame the illustrations used */

@@ -698,12 +698,13 @@ export function initSiteEffects(): void {
       sum = document.getElementById('briefSummary');
     if (form && btn && sum) {
       var mailto = '';
+      var email = form.getAttribute('data-email') || 'hello@greyzone.in';
       function picked(name) { var el = form.querySelector('input[name="' + name + '"]:checked'); return el ? el.value : null; }
       function sync() {
         var type = picked('btype'), budget = picked('bbudget');
         var subject = 'New project: ' + type;
         var body = 'Hi GREYZONE,\n\nI am building ' + type + '.' + (budget ? '\nBudget range: ' + budget + '.' : '') + '\n\nWhat it needs to do:\n';
-        mailto = 'mailto:hello@greyzone.in?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+        mailto = 'mailto:' + email + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
         btn.setAttribute('data-mailto', mailto);
         sum.textContent = budget
           ? ('You are building ' + type + ' · budget ' + budget + '. We reply within 1 working day.')
