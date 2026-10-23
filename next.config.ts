@@ -3,10 +3,14 @@ import type { NextConfig } from 'next';
 /**
  * Baseline security headers for a static marketing site.
  * Media and images are same-origin after self-hosting studio/process/journal assets.
+ * React/Next use eval() in development for stack reconstruction and HMR — allow
+ * unsafe-eval only then. Production never needs it.
  */
+const isDev = process.env.NODE_ENV !== 'production';
+
 const contentSecurityPolicy = [
   "default-src 'self'",
-  "script-src 'self' 'unsafe-inline'",
+  `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ''}`,
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data: blob:",
   "media-src 'self'",

@@ -35,6 +35,8 @@
   --card: light-dark(#F4F4F2, #1C1D1F);
   --pad: clamp(16px, 5vw, 77px);
   /* side gutter: 16px → 77px */
+  --site-max: 1440px;
+  /* content shell: centered on large / ultrawide screens */
   --top: clamp(12px, 2.2vw, 30px);
   /* header offset */
   --tap: 44px;
@@ -1062,7 +1064,7 @@ header.is-hidden {
 }
 
 .hero-copy {
-  max-width: 2074px;
+  max-width: var(--site-max);
   margin: clamp(28px, 5vw, 56px) auto 0;
   padding: 0 var(--pad);
   text-align: left
@@ -1180,7 +1182,7 @@ header.is-hidden {
   --hold: .45;
   --card-h: clamp(15rem, calc(var(--svh)*52), 30rem);
   position: relative;
-  max-width: 2074px;
+  max-width: var(--site-max);
   margin: 0 auto
 }
 
@@ -1877,7 +1879,7 @@ header.is-hidden {
   min-width: 0;
   min-height: 0;
   width: 100%;
-  max-width: 2074px;
+  max-width: var(--site-max);
   margin: 0 auto;
   display: grid;
   grid-template-rows: minmax(0, 1fr) auto;
@@ -2414,7 +2416,7 @@ header.is-hidden {
 }
 
 .build-tools {
-  max-width: 2074px;
+  max-width: var(--site-max);
   margin: clamp(24px, 3.5vw, 40px) auto 0;
   padding: 0 var(--pad);
   display: flex;
@@ -3127,7 +3129,7 @@ header.is-hidden {
 
 .foot-inner {
   container-type: inline-size;
-  max-width: 2074px;
+  max-width: var(--site-max);
   margin: 0 auto;
   padding: clamp(48px, 7vw, 96px) var(--pad) clamp(22px, 3vw, 36px)
 }
@@ -3485,4 +3487,4 @@ header.is-hidden {
 
 /* Shared shell (deduplicated): one rule for every section container.
    Previously max-width:2074px + margin:auto + gutter padding was repeated per section. */
-.site-container,.hero-copy-in,.studio-in,.journal-in,.build-head,.build-tools{max-width:2074px;margin-inline:auto;padding-inline:var(--pad)}
+.site-container,.hero-copy-in,.studio-in,.journal-in,.build-head,.build-tools{max-width:var(--site-max);margin-inline:auto;padding-inline:var(--pad)}
