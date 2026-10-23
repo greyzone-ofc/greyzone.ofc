@@ -21,8 +21,7 @@ export const processSteps: ProcessStep[] = [
     body: 'Before anything is designed, we sit with your team and map the real problem: who it is for, what it must do, and what success looks like in numbers.',
     timing: 'Weeks 1–2',
     detail: 'Stakeholder workshop · Research · Opportunity map',
-    image:
-      'https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=900&auto=format&fit=crop',
+    image: '/assets/process/step-01.jpg',
     alt: 'The team mapping a problem together in a workshop',
   },
   {
@@ -33,8 +32,7 @@ export const processSteps: ProcessStep[] = [
     body: 'We turn the discovery into a fixed scope: sitemap, features, timeline and price, written in plain language. No surprises later, because everything is decided here.',
     timing: 'Weeks 2–3',
     detail: 'Scope document · Sitemap · Fixed quote',
-    image:
-      'https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?q=80&w=900&auto=format&fit=crop',
+    image: '/assets/process/step-02.jpg',
     alt: 'Planning notes and a laptop on a desk',
   },
   {
@@ -45,8 +43,7 @@ export const processSteps: ProcessStep[] = [
     body: 'You review a working prototype, not static pictures. We test it on real phones, with real content, and revise until it reads clearly at every size.',
     timing: 'Weeks 3–5',
     detail: 'UI design · Clickable prototype · Design system',
-    image:
-      'https://images.unsplash.com/photo-1561070791-2526d30994b5?q=80&w=900&auto=format&fit=crop',
+    image: '/assets/process/step-03.jpg',
     alt: 'Design tools and colour swatches laid out for UI design',
   },
   {
@@ -57,8 +54,7 @@ export const processSteps: ProcessStep[] = [
     body: 'Frontend and backend are built together, with a staging link you can open any day. Fast pages are a requirement here, not a favour: budgets are set and measured.',
     timing: 'Weeks 5–9',
     detail: 'Development · Staging access · Performance budgets',
-    image:
-      'https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=900&auto=format&fit=crop',
+    image: '/assets/process/step-04.jpg',
     alt: 'Code on a monitor during development',
   },
   {
@@ -69,8 +65,7 @@ export const processSteps: ProcessStep[] = [
     body: 'Only after the basics work do we automate: document processing, follow-ups, data entry. Every automation reports what it did, and a human can override it.',
     timing: 'Weeks 8–10',
     detail: 'Workflow automation · AI features · Audit trail',
-    image:
-      'https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=900&auto=format&fit=crop',
+    image: '/assets/process/step-05.jpg',
     alt: 'An abstract AI visualisation',
   },
   {
@@ -81,8 +76,7 @@ export const processSteps: ProcessStep[] = [
     body: 'We test on real devices, deploy, and watch the numbers with you. Then we improve what the data says matters: speed, enquiries, completed tasks.',
     timing: 'Week 10 onwards',
     detail: 'QA · Deployment · Monthly improvements',
-    image:
-      'https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=900&auto=format&fit=crop',
+    image: '/assets/process/step-06.jpg',
     alt: 'Analytics dashboards being reviewed after launch',
   },
 ];

@@ -1,3 +1,5 @@
+import { socialUrls } from './social';
+
 export type NavLink = {
   href: string;
   label: string;
@@ -27,22 +29,22 @@ export const serviceSublinks: NavLink[] = [
 
 export const socialLinks: SocialLink[] = [
   {
-    href: 'https://www.linkedin.com/company/greyzone',
+    href: socialUrls.linkedin,
     label: 'LinkedIn',
     iconId: 'i-in',
   },
   {
-    href: 'https://www.instagram.com/greyzone',
+    href: socialUrls.instagram,
     label: 'Instagram',
     iconId: 'i-ig',
   },
   {
-    href: 'https://github.com/greyzone',
+    href: socialUrls.github,
     label: 'GitHub',
     iconId: 'i-gh',
   },
   {
-    href: 'https://x.com/greyzone',
+    href: socialUrls.x,
     label: 'X (Twitter)',
     iconId: 'i-x',
   },

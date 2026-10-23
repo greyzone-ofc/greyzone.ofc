@@ -1,5 +1,7 @@
 import { Acc } from '@/components/ui/Acc';
 import { Icon } from '@/components/ui/Icon';
+import { externalRel } from '@/modules/site/config';
+import { socialLinks } from '@/modules/site/navigation';
 
 export function ContactSection() {
   return (
@@ -20,7 +22,12 @@ export function ContactSection() {
               </p>
             </div>
             <div className="contact-side">
-              <form className="brief" id="briefForm">
+              <div
+                className="brief"
+                id="briefForm"
+                role="group"
+                aria-describedby="briefSummary"
+              >
                 <fieldset>
                   <legend>What are you building?</legend>
                   <div className="chips">
@@ -100,13 +107,14 @@ export function ContactSection() {
                   You are building a website. Pick a budget range, or just send
                   what you have.
                 </p>
-                <a
+                <button
+                  type="button"
                   className="contact-btn"
                   id="briefBtn"
-                  href="mailto:hello@greyzone.in?subject=New%20project%3A%20a%20website"
+                  data-mailto="mailto:hello@greyzone.in?subject=New%20project%3A%20a%20website"
                 >
                   Send brief by email
-                </a>
+                </button>
                 <p className="brief-note">
                   We reply within 1 working day.{' '}
                   <span className="brief-alt">
@@ -114,7 +122,7 @@ export function ContactSection() {
                     <a href="mailto:hello@greyzone.in">hello@greyzone.in</a>
                   </span>
                 </p>
-              </form>
+              </div>
             </div>
           </div>
           <div className="contact-foot">
@@ -123,46 +131,18 @@ export function ContactSection() {
               internationally
             </p>
             <ul className="menu-social">
-              <li>
-                <a
-                  href="https://www.linkedin.com/company/greyzone"
-                  target="_blank"
-                  rel="noopener"
-                  aria-label="LinkedIn"
-                >
-                  <Icon id="i-in" className="ic" />
-                </a>
-              </li>
-              <li>
-                <a
-                  href="https://www.instagram.com/greyzone"
-                  target="_blank"
-                  rel="noopener"
-                  aria-label="Instagram"
-                >
-                  <Icon id="i-ig" className="ic" />
-                </a>
-              </li>
-              <li>
-                <a
-                  href="https://github.com/greyzone"
-                  target="_blank"
-                  rel="noopener"
-                  aria-label="GitHub"
-                >
-                  <Icon id="i-gh" className="ic" />
-                </a>
-              </li>
-              <li>
-                <a
-                  href="https://x.com/greyzone"
-                  target="_blank"
-                  rel="noopener"
-                  aria-label="X (Twitter)"
-                >
-                  <Icon id="i-x" className="ic" />
-                </a>
-              </li>
+              {socialLinks.map((s) => (
+                <li key={s.label}>
+                  <a
+                    href={s.href}
+                    target="_blank"
+                    rel={externalRel}
+                    aria-label={s.label}
+                  >
+                    <Icon id={s.iconId} className="ic" />
+                  </a>
+                </li>
+              ))}
             </ul>
             <a className="contact-top-link" href="#page">
               Back to top <Icon id="i-arrow" className="ic" />

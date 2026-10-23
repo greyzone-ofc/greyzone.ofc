@@ -1,3 +1,4 @@
+import { externalRel } from '@/modules/site/config';
 import {
   contactEmail,
   navLinks,
@@ -66,7 +67,7 @@ export function SiteFooter() {
               <ul>
                 {socialLinks.map((s) => (
                   <li key={s.label}>
-                    <a href={s.href} target="_blank" rel="noopener">
+                    <a href={s.href} target="_blank" rel={externalRel}>
                       {s.label === 'X (Twitter)' ? 'Twitter' : s.label}
                     </a>
                   </li>

@@ -1,4 +1,5 @@
 import { Icon } from '@/components/ui/Icon';
+import { externalRel } from '@/modules/site/config';
 import {
   contactEmail,
   navLinks,
@@ -13,6 +14,8 @@ export function MenuOverlay() {
       id="menuOverlay"
       role="dialog"
       aria-modal="true"
+      aria-hidden="true"
+      inert
       aria-label="Main menu"
     >
       <button
@@ -78,7 +81,7 @@ export function MenuOverlay() {
               <a
                 href={s.href}
                 target="_blank"
-                rel="noopener"
+                rel={externalRel}
                 aria-label={s.label}
               >
                 <Icon id={s.iconId} className="ic" />

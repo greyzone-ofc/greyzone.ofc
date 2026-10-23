@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import { Icon } from '@/components/ui/Icon';
-import { socialUrls } from '@/modules/site/metadata';
+import { externalRel } from '@/modules/site/config';
+import { socialUrls } from '@/modules/site/social';
 
 export function SiteHeader() {
   return (
@@ -44,7 +45,7 @@ export function SiteHeader() {
             <a
               href={socialUrls.linkedin}
               target="_blank"
-              rel="noopener"
+              rel={externalRel}
               aria-label="GREYZONE on LinkedIn"
             >
               <Icon id="i-in" className="ic" />
