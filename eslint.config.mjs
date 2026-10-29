@@ -6,7 +6,13 @@ const eslintConfig = [
   ...nextVitals,
   ...nextTs,
   {
-    ignores: ['.next/**', 'node_modules/**', 'out/**', 'lib/site-effects.ts'],
+    ignores: [
+      '.next/**',
+      'node_modules/**',
+      'out/**',
+      'src/lib/site-effects.ts',
+      'src/features/effects/**',
+    ],
   },
 ];
 

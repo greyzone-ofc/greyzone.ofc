@@ -9,6 +9,10 @@
     "start": "next start",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
+    "validate:content": "npx --yes tsx scripts/validate-content.ts",
+    "validate:routes": "npx --yes tsx scripts/validate-routes.ts",
+    "validate:assets": "npx --yes tsx scripts/validate-assets.ts",
+    "validate": "npm run validate:content && npm run validate:routes && npm run validate:assets",
     "test:e2e": "npm run build && playwright test",
     "test:e2e:update": "npm run build && playwright test --update-snapshots",
     "test:e2e:smoke": "npm run build && playwright test e2e/smoke.spec.ts"

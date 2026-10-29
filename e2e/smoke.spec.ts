@@ -4,7 +4,6 @@ test.describe('marketing home smoke', () => {
   test.beforeEach(async ({ page }) => {
     await page.emulateMedia({ reducedMotion: 'reduce' });
     await page.goto('/');
-    // SiteEffects adds `js` after mounting legacy interaction scripts.
     await page.waitForFunction(() =>
       document.documentElement.classList.contains('js'),
     );
@@ -30,7 +29,6 @@ test.describe('marketing home smoke', () => {
   });
 
   test('menu opens and closes with keyboard', async ({ page }) => {
-    // Label toggles Open/Close — locate by id so the handle stays stable.
     const menuBtn = page.locator('#proMenu');
     await expect(menuBtn).toHaveAttribute('aria-label', 'Open menu');
     await menuBtn.click();
@@ -60,12 +58,56 @@ test.describe('marketing home smoke', () => {
   test('brief CTA composes a mailto action', async ({ page }) => {
     const briefBtn = page.locator('#briefBtn');
     await expect(briefBtn).toBeVisible();
-    await expect(briefBtn).toHaveAttribute('data-mailto', /mailto:hello@greyzone\.in/);
+    await expect(briefBtn).toHaveAttribute(
+      'data-mailto',
+      /mailto:hello@greyzone\.in/,
+    );
 
     await page.locator('input[name="btype"][value="an application"]').check();
     await expect(briefBtn).toHaveAttribute(
       'data-mailto',
       /subject=New%20project%3A%20an%20application/,
     );
+  });
+});
+
+test.describe('detail pages smoke', () => {
+  test.beforeEach(async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+  });
+
+  test('work detail loads and menu works without hero', async ({ page }) => {
+    await page.goto('/work/wholesale-ordering-portal');
+    await page.waitForFunction(() =>
+      document.documentElement.classList.contains('js'),
+    );
+    await expect(
+      page.getByRole('heading', { level: 1, name: /Wholesale ordering portal/i }),
+    ).toBeVisible();
+    await expect(page.getByRole('link', { name: /Start a project/i }).first()).toBeVisible();
+
+    const menuBtn = page.locator('#proMenu');
+    await menuBtn.click();
+    await expect(page.locator('#menuOverlay')).toHaveClass(/open/);
+    await page.keyboard.press('Escape');
+    await expect(page.locator('#menuOverlay')).not.toHaveClass(/open/);
+  });
+
+  test('journal detail loads with contact CTA', async ({ page }) => {
+    await page.goto('/journal/checkout-under-two-seconds');
+    await expect(
+      page.getByRole('heading', {
+        level: 1,
+        name: /How we cut a checkout to under two seconds/i,
+      }),
+    ).toBeVisible();
+    await expect(
+      page.getByRole('link', { name: /Discuss your site's speed/i }),
+    ).toHaveAttribute('href', '/#contact');
+  });
+
+  test('unknown work slug returns 404', async ({ page }) => {
+    const res = await page.goto('/work/does-not-exist');
+    expect(res?.status()).toBe(404);
   });
 });

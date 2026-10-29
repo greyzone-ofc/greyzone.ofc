@@ -41,6 +41,9 @@ jobs:
       - name: Typecheck
         run: npm run typecheck
 
+      - name: Validate content routes assets
+        run: npm run validate
+
       - name: Production build
         run: npm run build
         env:
