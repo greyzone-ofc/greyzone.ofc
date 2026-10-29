@@ -1,0 +1,1 @@
+export { ProjectArt } from './ProjectArt';

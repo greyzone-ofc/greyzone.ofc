@@ -2,9 +2,13 @@
 
 ## Design tokens
 
-Primary tokens live in `src/styles/site.css` (`:root`): `--ink`, `--page`, `--red` / signal, `--muted`, `--line`, `--card`, fluid type (`--fs-title`, `--fs-lede`), layout (`--pad`, `--site-max`, `--tap`, `--svh`), fonts (`--font`, `--font-serif`).
+Primary tokens live in `src/styles/tokens.css` (`:root`): `--ink`, `--page`, `--red` / signal, `--muted`, `--line`, `--card`, fluid type (`--fs-title`, `--fs-lede`), layout (`--pad`, `--site-max`, `--tap`, `--svh`), fonts (`--font`, `--font-serif`), motion (`--ease-menu`, `--fx-p`).
+
+Entry stylesheet: `src/styles/index.css` (via `app/globals.css`). `site.css` re-exports that barrel.
 
 `src/app/globals.css` `@theme` mirrors semantic colors for the few Tailwind utilities in use. Keep both aligned — do not invent a second palette.
+
+Section / chrome CSS is split under `src/styles/chrome/` and `src/styles/sections/` — see [styles-and-effects.md](./styles-and-effects.md).
 
 ## Shared components
 
@@ -16,9 +20,10 @@ Primary tokens live in `src/styles/site.css` (`:root`): `--ink`, `--page`, `--re
 
 ## Styling rules
 
-- Marketing look is mostly hand CSS in `site.css` (BEM-ish section prefixes).
+- Marketing look is mostly hand CSS under `src/styles/` (BEM-ish section prefixes).
 - Prefer existing tokens over arbitrary values.
 - Respect `prefers-reduced-motion` paths already in CSS/effects.
+- Scroll interactions mount via `data-fx` recipes (`src/features/effects`), not per-component scroll hooks.
 - Do not wholesale rewrite to Tailwind in this architecture pass.
 
 ## Empty / single-item collections

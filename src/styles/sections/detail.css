@@ -1,0 +1,13 @@
+/* Detail pages (work / journal) — reuse marketing tokens, minimal chrome-compatible layout */
+.detail-page{padding:calc(var(--top) + env(safe-area-inset-top,0px) + 48px) 0 clamp(64px,10vw,120px)}
+.detail-in{max-width:min(720px,var(--site-max));margin-inline:auto;padding-inline:var(--pad)}
+.detail-in h1{font-size:var(--fs-title);line-height:1.05;margin:12px 0 16px;letter-spacing:-.02em}
+.detail-lede{color:var(--muted);font-size:clamp(1.05rem,1.4vw,1.25rem);margin:0 0 28px}
+.detail-meta{color:var(--muted);margin:0 0 24px}
+.detail-result{margin:28px 0;font-size:clamp(1.1rem,1.5vw,1.35rem)}
+.detail-art{margin:24px 0;border-radius:16px;overflow:hidden;background:var(--card)}
+.detail-art .pc-art{display:block;width:100%;height:auto}
+.detail-hero-img{margin:0 0 28px;border-radius:16px;overflow:hidden}
+.detail-hero-img img{width:100%;height:auto;display:block}
+.detail-cta{display:inline-flex;align-items:center;gap:8px;font-weight:700;color:var(--red-fg);text-decoration:underline;text-underline-offset:4px}
+.detail-in .eyebrow a{color:inherit;text-decoration:underline;text-underline-offset:3px}

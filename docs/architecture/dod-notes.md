@@ -30,7 +30,9 @@ Place under `src/components/ui` (primitive) or `src/components/layout` (chrome).
 
 ## Remaining risks
 
-- Home section effects still largely in `@ts-nocheck` legacy module (menu + theme are typed).
+- Scene recipe bodies in `recipes/scenes.ts` remain `@ts-nocheck` (typed registry + chrome; gradual typing next).
+- Recipe cleanups are mostly no-ops for heavy scroll listeners — improve per-recipe teardown when touching a scene.
+- `sections/upgrades.css` still mixes cross-section enhancements — fold into section files when editing those areas.
 - Visual baselines should be re-checked locally after large CSS edits.
 - Lighthouse/CWV not gated in CI — spot-check manually when needed.
 - CMS/ISR webhook not implemented (documented in decisions.md).

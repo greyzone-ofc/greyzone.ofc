@@ -1,7 +1,7 @@
 import type { CSSProperties } from 'react';
 import { Acc } from '@/components/ui/Acc';
 import { Icon } from '@/components/ui/Icon';
-import { ProjectArt } from '@/features/work/ProjectArt';
+import { ProjectArt } from '@/features/work';
 import { getAllProjects } from '@/lib/content';
 
 export async function ProjectsSection() {
@@ -13,6 +13,7 @@ export async function ProjectsSection() {
   return (
     <section
       className="projects"
+      data-fx="arc"
       aria-labelledby="projTitle"
       style={{ '--n': projects.length } as CSSProperties}
     >

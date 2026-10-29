@@ -10,7 +10,7 @@ export async function ContactSection() {
   const mailtoBase = `mailto:${email}?subject=${encodeURIComponent('New project: a website')}`;
 
   return (
-    <section className="contact" aria-labelledby="contactTitle">
+    <section className="contact" data-fx="circle" aria-labelledby="contactTitle">
       <span className="contact-anchor" id="contact"></span>
       <div className="contact-stage">
         <div className="contact-inner">
@@ -47,6 +47,7 @@ export async function ContactSection() {
             <div
               className="brief"
               id="briefForm"
+              data-fx="brief"
               role="group"
               aria-describedby="briefSummary"
               data-email={email}

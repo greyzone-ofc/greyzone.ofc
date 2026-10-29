@@ -17,6 +17,7 @@ export async function ServicesSection() {
       <section
         className="services"
         id="services"
+        data-fx="stack"
         aria-labelledby="svcTitle"
         style={{ '--n': services.length } as CSSProperties}
       >

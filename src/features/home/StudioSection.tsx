@@ -6,7 +6,7 @@ export async function StudioSection() {
   const studio = await getStudio();
 
   return (
-    <section className="studio" id="studio" aria-labelledby="studioTitle">
+    <section className="studio" id="studio" data-fx="studio-video" aria-labelledby="studioTitle">
       <div className="studio-in">
         <span className="eyebrow">{studio.eyebrow}</span>
         <h2 id="studioTitle">

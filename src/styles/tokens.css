@@ -1,0 +1,118 @@
+/* ===== TOKENS (mobile-first, fluid) ===== */
+:root {
+  color-scheme: light dark;
+  --font: var(--font-figtree), "Figtree", "Helvetica Neue", Helvetica, Arial, system-ui, sans-serif;
+  --font-serif: var(--font-fraunces), "Fraunces", Georgia, "Times New Roman", serif;
+  /* editorial accent: one italic word per headline, never body text */
+  --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  /* brand palette only (guidelines): white, black, signal, deep, grey, mist, paper, ink-grey, graphite.
+ Semantic tokens resolve per theme via light-dark(); the static values underneath are the no-light-dark() fallback. */
+  --ink: #0A0A0A;
+  --page: #FFFFFF;
+  --muted: #55585D;
+  --line: #E4E5E7;
+  --red: #D1162C;
+  --red-deep: #9E0F20;
+  --grey: #868A90;
+  --graphite: #1C1D1F;
+  --r-btn: 10px;
+  --r-card: 12px;
+  --ink: light-dark(#0A0A0A, #FFFFFF);
+  --page: light-dark(#FFFFFF, #0A0A0A);
+  --muted: light-dark(#55585D, #868A90);
+  --line: light-dark(#E4E5E7, #1C1D1F);
+  --card: light-dark(#F4F4F2, #1C1D1F);
+  --hero-bg: light-dark(#FFFFFF, #0A0A0A);
+  --hero-ink: light-dark(#0A0A0A, #FFFFFF);
+  --hero-muted: light-dark(#55585D, #868A90);
+  --alt: light-dark(#F4F4F2, #1C1D1F);
+  --card-solid: light-dark(#FFFFFF, #1C1D1F);
+  --dot: light-dark(rgba(134, 138, 144, .20), rgba(134, 138, 144, .14));
+  --on-dark-muted: #868A90;
+  --pill: rgba(255, 255, 255, .82);
+  --pill-ink: #0A0A0A;
+  --hero-g: #F4F4F2;
+  --card: light-dark(#F4F4F2, #1C1D1F);
+  --pad: clamp(16px, 5vw, 77px);
+  /* side gutter: 16px → 77px */
+  --site-max: 1440px;
+  /* content shell: centered on large / ultrawide screens */
+  --top: clamp(12px, 2.2vw, 30px);
+  /* header offset */
+  --tap: 44px;
+  --mk: 44px;
+  /* min touch target */
+  --svh: 1vh;
+  /* small-viewport unit, upgraded below where supported */
+  --clear: calc(var(--top) + var(--mk) + clamp(14px, calc(var(--svh)*2.4), 28px));
+  /* space under the fixed header */
+  --red-fg: #D1162C;
+  /* red used as text: keeps 4.5:1 on light surfaces */
+  --fs-title: clamp(2.1rem, 6.4vw + .4rem, 5rem);
+  --fs-lede: clamp(1rem, .5vw + .9rem, 1.35rem);
+  --ease-out-fluid: cubic-bezier(.2, .7, .2, 1);
+  --ease-menu: cubic-bezier(.7, 0, .2, 1);
+  /* Progress published by scroll recipes (0–1). Sections may read via CSS. */
+  --fx-p: 0;
+  box-sizing: border-box;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+/* pinned themes: color-scheme alone drives every light-dark() token above */
+:root[data-theme="dark"] {
+  color-scheme: dark
+}
+
+:root[data-theme="light"] {
+  color-scheme: light
+}
+
+/* fallback for browsers without light-dark(): same two themes via the media query / pinned attribute */
+@media (prefers-color-scheme:dark) {
+  :root:not([data-theme="light"]) {
+    --ink: #FFFFFF;
+    --page: #0A0A0A;
+    --muted: #868A90;
+    --line: #1C1D1F;
+    --hero-g: #1C1D1F;
+    --card: #1C1D1F;
+    --hero-bg: #0A0A0A;
+    --hero-ink: #FFFFFF;
+    --hero-muted: #868A90;
+    --alt: #1C1D1F;
+    --card-solid: #1C1D1F
+  }
+}
+
+:root[data-theme="dark"] {
+  --ink: #FFFFFF;
+  --page: #0A0A0A;
+  --muted: #868A90;
+  --line: #1C1D1F;
+  --hero-g: #1C1D1F;
+  --card: #1C1D1F;
+  --hero-bg: #0A0A0A;
+  --hero-ink: #FFFFFF;
+  --hero-muted: #868A90;
+  --alt: #1C1D1F;
+  --card-solid: #1C1D1F
+}
+
+::selection {
+  background: var(--red);
+  color: #fff
+}
+
+/* only the signature red contact stage (and its dark brief panel) keeps dark native UI in both themes;
+   every other section — hero, services, projects, studio, journal, footer, menu — follows the theme */
+.contact-stage,
+.brief {
+  color-scheme: dark
+}
+
+@supports (height:1svh) {
+  :root {
+    --svh: 1svh
+  }
+}

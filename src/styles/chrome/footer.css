@@ -1,0 +1,302 @@
+/* ===== FOOTER: giant brand wordmark, last element in the document =====
+   Base state is ordinary flow. The exit-curtain reveal (above) makes it sticky only
+   inside .footer-reveal, a local stage at the end of How-we-build — its containing
+   block starts there, so it cannot stick behind the hero or show through it. */
+.footer-reveal {
+  position: relative;
+  z-index: 0
+}
+
+.footer-stage {
+  display: none
+}
+
+.site-footer {
+  position: relative;
+  background: radial-gradient(var(--dot) 1px, transparent 1.3px) 0 0/26px 26px, linear-gradient(180deg, var(--alt), var(--page));
+  color: var(--ink)
+}
+
+@media print {
+  .footer-reveal {
+    margin: 0;
+    height: auto
+  }
+
+  .site-footer {
+    position: relative
+  }
+}
+
+.foot-inner {
+  container-type: inline-size;
+  max-width: var(--site-max);
+  margin: 0 auto;
+  padding: clamp(48px, 7vw, 96px) var(--pad) clamp(22px, 3vw, 36px)
+}
+
+.foot-brand {
+  font-size: clamp(3rem, 15.2cqi, 24rem);
+  font-weight: 700;
+  line-height: .94;
+  letter-spacing: -.02em;
+  white-space: nowrap;
+  color: var(--ink)
+}
+
+/* square mark, artwork centred on the box: box centre = glyph centre = pivot.
+   (A text "*" sits high in its line box, so rotating its box made it orbit.) */
+.foot-brand .foot-ast {
+  display: inline-block;
+  position: relative;
+  top: -.22em;
+  width: .46em;
+  height: .46em;
+  line-height: 0;
+  transform-origin: center
+}
+
+.foot-ast svg {
+  display: block;
+  width: 100%;
+  height: 100%
+}
+
+/* clock tick: the mark has 6 spokes, so one full turn = 6 ticks of 60deg, one tick
+   per second (6s loop). Each tick sweeps in .65s with a smooth entry and exit
+   (ease-in-out declared on the keyframe that starts the segment, per CSS Animations)
+   then dwells .35s on the tick. Transform only: compositor-run, no layout shift. */
+@media (prefers-reduced-motion:no-preference) {
+  .foot-brand .foot-ast {
+    animation: ast-tick 6s linear infinite
+  }
+
+  .foot-brand:hover .foot-ast {
+    animation-play-state: paused
+  }
+}
+
+@keyframes ast-tick {
+  0% {
+    transform: rotate(0deg);
+    animation-timing-function: cubic-bezier(.65, 0, .35, 1)
+  }
+
+  10.833% {
+    transform: rotate(60deg)
+  }
+
+  16.667% {
+    transform: rotate(60deg);
+    animation-timing-function: cubic-bezier(.65, 0, .35, 1)
+  }
+
+  27.5% {
+    transform: rotate(120deg)
+  }
+
+  33.333% {
+    transform: rotate(120deg);
+    animation-timing-function: cubic-bezier(.65, 0, .35, 1)
+  }
+
+  44.167% {
+    transform: rotate(180deg)
+  }
+
+  50% {
+    transform: rotate(180deg);
+    animation-timing-function: cubic-bezier(.65, 0, .35, 1)
+  }
+
+  60.833% {
+    transform: rotate(240deg)
+  }
+
+  66.667% {
+    transform: rotate(240deg);
+    animation-timing-function: cubic-bezier(.65, 0, .35, 1)
+  }
+
+  77.5% {
+    transform: rotate(300deg)
+  }
+
+  83.333% {
+    transform: rotate(300deg);
+    animation-timing-function: cubic-bezier(.65, 0, .35, 1)
+  }
+
+  94.167% {
+    transform: rotate(360deg)
+  }
+
+  100% {
+    transform: rotate(360deg)
+  }
+}
+
+.foot-cols {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(26px, 4vw, 56px);
+  max-width: 64rem;
+  margin-top: clamp(40px, 6vw, 84px)
+}
+
+.foot-col h2 {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 12px
+}
+
+.foot-col ul {
+  list-style: none
+}
+
+.foot-col a {
+  display: flex;
+  align-items: center;
+  min-height: 40px;
+  font-size: .98rem;
+  color: var(--muted);
+  transition: color .25s, transform .25s
+}
+
+.foot-col a:hover {
+  color: var(--ink);
+  transform: translateX(4px)
+}
+
+.foot-mark {
+  justify-self: end;
+  align-self: end;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: clamp(52px, 5vw, 68px);
+  height: clamp(52px, 5vw, 68px);
+  border: 1.5px solid var(--ink);
+  border-radius: 50%;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--ink);
+  transition: background .25s, color .25s
+}
+
+.foot-mark:hover {
+  background: var(--ink);
+  color: var(--page)
+}
+
+.site-footer :focus-visible {
+  outline-color: var(--ink)
+}
+
+.foot-legal {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px 32px;
+  flex-wrap: wrap;
+  margin-top: clamp(36px, 5vw, 64px);
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
+  font-size: .82rem;
+  color: var(--muted)
+}
+
+.foot-legal ul {
+  list-style: none;
+  display: flex;
+  gap: clamp(18px, 3vw, 36px);
+  flex-wrap: wrap
+}
+
+.foot-legal a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 32px;
+  color: var(--muted);
+  transition: color .25s
+}
+
+.foot-legal a:hover {
+  color: var(--ink)
+}
+
+@media (min-width:760px) {
+  .foot-cols {
+    grid-template-columns: 1.1fr 1fr 1fr auto
+  }
+}
+
+/* short viewports: compact the footer so it still fits within 100svh and the
+   curtain reveal can run instead of trapping its top off-screen */
+@media (max-height:760px) {
+  .foot-inner {
+    padding-top: clamp(24px, calc(var(--svh)*5), 40px)
+  }
+
+  .foot-brand {
+    font-size: min(15.2cqi, calc(var(--svh)*23))
+  }
+
+  .foot-cols {
+    margin-top: clamp(20px, calc(var(--svh)*4), 36px)
+  }
+
+  .foot-legal {
+    margin-top: clamp(20px, calc(var(--svh)*4), 36px)
+  }
+}
+
+@media (max-width:759px) {
+  .foot-mark {
+    grid-column: 2;
+    justify-self: end
+  }
+}
+
+@media (max-width:620px) {
+  .build-card {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: 10rem auto;
+    min-height: 28rem
+  }
+
+  .build-photo {
+    order: -1
+  }
+}
+
+@media (prefers-reduced-motion:reduce) {
+  .build.is-live .build-track {
+    animation: none !important
+  }
+
+  .menu-overlay,
+  .menu-links li,
+  .stagger,
+  header,
+  .btn,
+  .user-area a,
+  .svc-link svg,
+  .proj-btn,
+  .pc-meta {
+    transition: none !important
+  }
+
+  .menu-links li,
+  .stagger {
+    opacity: 1;
+    transform: none
+  }
+
+  html {
+    scroll-behavior: auto
+  }
+}

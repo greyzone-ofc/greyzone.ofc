@@ -69,6 +69,33 @@ test.describe('marketing home smoke', () => {
       /subject=New%20project%3A%20an%20application/,
     );
   });
+
+  test('data-fx recipes mount on home sections', async ({ page }) => {
+    await expect(page.locator('[data-fx="hero-fx"]')).toHaveAttribute(
+      'data-fx-mounted',
+      'true',
+    );
+    await expect(page.locator('[data-fx="stack"]')).toHaveAttribute(
+      'data-fx-mounted',
+      'true',
+    );
+    await expect(page.locator('[data-fx="arc"]')).toHaveAttribute(
+      'data-fx-mounted',
+      'true',
+    );
+    await expect(page.locator('[data-fx="circle"]')).toHaveAttribute(
+      'data-fx-mounted',
+      'true',
+    );
+    await expect(page.locator('[data-fx="brief"]')).toHaveAttribute(
+      'data-fx-mounted',
+      'true',
+    );
+    await expect(page.locator('[data-fx="marquee"]')).toHaveAttribute(
+      'data-fx-mounted',
+      'true',
+    );
+  });
 });
 
 test.describe('detail pages smoke', () => {

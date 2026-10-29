@@ -1,0 +1,345 @@
+/* ===== SERVICES: curtain-led card stack ===== */
+/* base = plain list (no JS / reduced motion); .is-stack = pinned stage, cards stack on scroll */
+.services {
+  --step: calc(var(--svh)*72);
+  --hold: .45;
+  --card-h: clamp(15rem, calc(var(--svh)*52), 30rem);
+  position: relative;
+  max-width: var(--site-max);
+  margin: 0 auto
+}
+
+.svc-stage {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: clamp(24px, 4vw, 56px);
+  padding: clamp(56px, 9vw, 120px) var(--pad)
+}
+
+.svc-head {
+  max-width: 36rem
+}
+
+.svc-head h2 {
+  font-size: clamp(1.65rem, 1.1rem + 2.4vw, 3.75rem);
+  font-weight: 700;
+  line-height: 1.06;
+  text-wrap: balance
+}
+
+.svc-lede {
+  margin-top: clamp(10px, 1.4vw, 18px);
+  max-width: 30rem;
+  color: var(--muted);
+  font-size: var(--fs-lede);
+  line-height: 1.45;
+  text-wrap: pretty
+}
+
+.svc-meter {
+  display: none;
+  align-items: center;
+  gap: 14px;
+  font-size: .85rem;
+  font-weight: 700;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums
+}
+
+.svc-meter b {
+  color: var(--ink)
+}
+
+.svc-bar {
+  position: relative;
+  width: clamp(64px, 10vw, 160px);
+  height: 2px;
+  background: var(--line);
+  overflow: hidden
+}
+
+.svc-bar i {
+  position: absolute;
+  inset: 0;
+  background: var(--red);
+  transform-origin: 0 50%;
+  transform: scaleX(.25)
+}
+
+.svc-deck {
+  list-style: none;
+  display: grid;
+  gap: clamp(12px, 1.6vw, 24px);
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr))
+}
+
+.svc-item {
+  container-type: inline-size;
+  min-width: 0
+}
+
+.svc-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(10px, 2.6cqi, 18px);
+  height: 100%;
+  min-height: 18rem;
+  padding: clamp(20px, 5.5cqi, 52px);
+  border-radius: clamp(16px, 3cqi, 28px);
+  overflow: hidden;
+  background: var(--card);
+  color: var(--ink);
+  box-shadow: 0 -12px 40px rgba(10, 10, 10, .1);
+  transition: transform .35s ease, box-shadow .35s ease
+}
+
+.svc-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: #000;
+  opacity: var(--shade, 0);
+  pointer-events: none
+}
+
+.svc-top {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase
+}
+
+.svc-num {
+  color: var(--red-fg)
+}
+
+.svc-kicker {
+  opacity: .75
+}
+
+.svc-body {
+  position: relative;
+  z-index: 1;
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: clamp(8px, 1.8cqi, 14px);
+  max-width: 34rem
+}
+
+.svc-card h3 {
+  font-size: clamp(1.6rem, .9rem + 5.2cqi, 3.6rem);
+  font-weight: 700;
+  line-height: 1.02;
+  letter-spacing: -.01em;
+  text-wrap: balance
+}
+
+.svc-card p {
+  font-size: clamp(.95rem, .85rem + .6cqi, 1.15rem);
+  line-height: 1.5;
+  opacity: .82;
+  max-width: 32rem
+}
+
+.svc-tags {
+  position: relative;
+  z-index: 1;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px
+}
+
+.svc-tags li {
+  padding: 5px 11px;
+  border-radius: 99px;
+  border: 1px solid currentColor;
+  border-color: color-mix(in srgb, currentColor 35%, transparent);
+  font-size: .78rem;
+  line-height: 1.3
+}
+
+.svc-link {
+  position: relative;
+  z-index: 1;
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: var(--tap);
+  font-size: .95rem;
+  font-weight: 700
+}
+
+.svc-link svg {
+  width: 16px;
+  height: 16px;
+  transition: transform .25s
+}
+
+.svc-link:hover svg {
+  transform: translate(2px, -2px)
+}
+
+.svc-art {
+  position: absolute;
+  top: clamp(14px, 4cqi, 40px);
+  right: clamp(14px, 4cqi, 40px);
+  width: clamp(64px, 26cqi, 260px);
+  height: auto;
+  stroke-width: 1.3;
+  opacity: .2;
+  pointer-events: none
+}
+
+.svc-c2 {
+  background: var(--graphite);
+  color: #fff
+}
+
+.svc-c3 {
+  background: var(--red);
+  color: #fff
+}
+
+.svc-c4 {
+  background: #0A0A0A;
+  color: #fff;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .12), 0 -12px 40px rgba(10, 10, 10, .1)
+}
+
+.svc-c2 .svc-num,
+.svc-c4 .svc-num {
+  color: #D1162C
+}
+
+.svc-c3 .svc-num,
+.svc-c3 p {
+  color: #fff;
+  opacity: 1
+}
+
+.svc-c2 :focus-visible,
+.svc-c3 :focus-visible,
+.svc-c4 :focus-visible {
+  outline-color: #fff
+}
+
+/* pinned mode: rows 1fr / card / 1fr keep the card on the viewport centre; row 1 grows only if the heading needs it */
+.services.is-stack {
+  height: calc(var(--svh)*100 + (var(--n) - 1 + var(--hold))*var(--step))
+}
+
+.is-stack .svc-stage {
+  position: sticky;
+  top: 0;
+  height: calc(var(--svh)*100);
+  padding-block: var(--clear);
+  gap: 0;
+  grid-template-rows: minmax(max-content, 1fr) minmax(0, var(--card-h)) 1fr
+}
+
+.is-stack .svc-head {
+  grid-row: 1;
+  align-self: end;
+  position: relative;
+  z-index: 6;
+  padding-bottom: clamp(12px, calc(var(--svh)*2.6), 28px)
+}
+
+.is-stack .svc-head .eyebrow,
+.is-stack .svc-lede {
+  display: none
+}
+
+.is-stack .svc-deck {
+  grid-row: 2;
+  display: block;
+  position: relative;
+  width: 100%;
+  max-width: 44rem;
+  height: 100%;
+  margin-inline: auto
+}
+
+.is-stack .svc-item {
+  position: absolute;
+  inset: 40px 0 0;
+  transform-origin: 50% 0;
+  will-change: transform
+}
+
+/* top 40px reserves the buried-card peek (3 × 12px) inside the deck, so the pile never reaches the headline */
+.is-stack .svc-card {
+  min-height: 0
+}
+
+.is-stack .svc-meter {
+  display: flex;
+  grid-row: 3;
+  align-self: start;
+  justify-content: center;
+  padding-top: clamp(12px, calc(var(--svh)*2.6), 28px)
+}
+
+@media (min-width:900px),
+(orientation:landscape) and (min-width:600px) {
+  .services {
+    --card-h: clamp(15rem, calc(var(--svh)*60), 36rem)
+  }
+
+  .is-stack .svc-stage {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    grid-template-rows: 1fr minmax(0, var(--card-h)) 1fr;
+    column-gap: clamp(28px, 5vw, 112px)
+  }
+
+  .is-stack .svc-head {
+    grid-area: 2/1;
+    align-self: start;
+    padding: 0
+  }
+
+  .is-stack .svc-head .eyebrow {
+    display: inline-block
+  }
+
+  .is-stack .svc-lede {
+    display: block
+  }
+
+  .is-stack .svc-deck {
+    grid-area: 2/2;
+    max-width: none
+  }
+
+  .is-stack .svc-meter {
+    grid-area: 2/1;
+    align-self: end;
+    justify-content: flex-start;
+    padding: 0
+  }
+}
+
+@media (max-height:560px) {
+
+  .is-stack .svc-lede,
+  .is-stack .svc-tags,
+  .is-stack .svc-art {
+    display: none
+  }
+
+  .is-stack .svc-card p {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden
+  }
+}

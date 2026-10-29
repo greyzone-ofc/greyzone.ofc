@@ -1,0 +1,172 @@
+/* ===== HEADER ===== */
+header {
+  position: fixed;
+  top: calc(var(--top) + env(safe-area-inset-top, 0px));
+  left: 0;
+  width: 100%;
+  z-index: 10;
+  transition: transform .5s ease;
+  will-change: transform
+}
+
+header.is-hidden {
+  transform: translateY(-200%)
+}
+
+.site-container {
+}
+
+.bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px
+}
+
+.site-menu {
+  display: flex;
+  align-items: center;
+  padding: 6px;
+  border-radius: 50px;
+  background: var(--pill);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px)
+}
+
+.logo-link {
+  display: block;
+  padding: 0 12px 0 16px
+}
+
+.logo-link img {
+  width: var(--mk);
+  height: auto
+}
+
+@media (hover:hover) and (pointer:fine) {
+  :root {
+    --mk: 40px
+  }
+}
+
+.pro-menu {
+  width: var(--mk);
+  height: var(--mk);
+  margin-left: .4rem;
+  background: #000;
+  border: 0;
+  border-radius: 99px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer
+}
+
+.pro-menu span {
+  display: block;
+  width: 16px;
+  height: 2px;
+  background: #fff;
+  border-radius: 2px
+}
+
+.user-area {
+  display: flex;
+  align-items: center;
+  gap: clamp(6px, 1.4vw, 16px)
+}
+
+.user-area a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--tap);
+  height: var(--tap);
+  border-radius: 50%;
+  color: var(--pill-ink);
+  background: var(--pill);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+  transition: transform .25s ease
+}
+
+.user-area a:hover {
+  transform: scale(1.08)
+}
+
+.user-area svg {
+  width: 20px;
+  height: 20px
+}
+
+/* the hero carries no CTA, so the header's is the first screen's one signal-red action (layout rule) */
+.user-area a.head-cta {
+  width: auto;
+  padding: 0 20px;
+  border-radius: 99px;
+  background: var(--red);
+  color: #fff;
+  font-size: .85rem;
+  font-weight: 700;
+  letter-spacing: .02em
+}
+
+.user-area a.head-cta:hover {
+  background: var(--red-deep);
+  transform: translateY(-1px)
+}
+
+/* theme toggle: same floating pill as the other header controls (readable over any section, either theme).
+   Icon = target theme: moon in light, sun in dark — for the pinned theme and, unpinned, for the OS theme. */
+.theme-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--tap);
+  height: var(--tap);
+  border: 0;
+  border-radius: 50%;
+  color: var(--pill-ink);
+  background: var(--pill);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+  cursor: pointer;
+  transition: transform .25s ease
+}
+
+.theme-toggle:hover {
+  transform: scale(1.08)
+}
+
+.theme-toggle svg {
+  width: 20px;
+  height: 20px
+}
+
+.theme-toggle .ic-sun {
+  display: none
+}
+
+:root[data-theme="dark"] .theme-toggle .ic-sun {
+  display: block
+}
+
+:root[data-theme="dark"] .theme-toggle .ic-moon {
+  display: none
+}
+
+@media (prefers-color-scheme:dark) {
+  :root:not([data-theme]) .theme-toggle .ic-sun {
+    display: block
+  }
+
+  :root:not([data-theme]) .theme-toggle .ic-moon {
+    display: none
+  }
+}
+
+.theme-toggle:active {
+  transform: scale(.92)
+}

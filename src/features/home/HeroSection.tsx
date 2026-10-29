@@ -4,13 +4,13 @@ export async function HeroSection() {
   const hero = await getHero();
 
   return (
-    <section className="hero-area home-hero-area">
+    <section className="hero-area home-hero-area" data-fx="hero-fx">
       <div className="site-banner-area">
         <div className="hero-banner" id="HeroBanner">
           <canvas className="hero-canvas" aria-hidden="true"></canvas>
           <div className="hero-glow" aria-hidden="true"></div>
           <div className="hero-copy">
-            <div className="vmask" data-vmask aria-hidden="true">
+            <div className="vmask" data-vmask data-fx="vmask" aria-hidden="true">
               <span className="hero-word vmask-text">
                 {hero.brandMaskLabel}
                 <i className="vmask-base"></i>

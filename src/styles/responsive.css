@@ -1,0 +1,58 @@
+/* ===== RESPONSIVE SYSTEM (audit-driven, additive) =====
+   1. Type floor: nothing below 12px at any size.  2. Touch: every control reaches 44px on coarse pointers (WCAG 2.5.8 AA is 24px; Apple 44pt, Material 48dp).
+   3. Pointer-aware: hover motion only where hover exists.  4. Text wraps by meaning, not by accident. */
+:where(h1, h2, h3) {
+  text-wrap: balance
+}
+
+:where(p, li, figcaption) {
+  text-wrap: pretty
+}
+
+.svc-card .svc-tags li,
+.pc-meta .pc-idx,
+.build-text .build-top span,
+.build-text .build-data b,
+.foot-col h2 {
+  font-size: max(12px, .75rem)
+}
+
+.logo-link {
+  display: flex;
+  align-items: center;
+  min-height: var(--mk)
+}
+
+.contact-top-link,
+.contact-btn {
+  min-height: 44px
+}
+
+@media (pointer:coarse) {
+
+  .chip-opt span,
+  .brief .chip-opt span,
+  .chips .chip-opt span {
+    min-height: calc(var(--tap) + 2px)
+  }
+
+  :is(main, footer) li>a:not(#_),
+  .contact-btn:not(#_),
+  .contact-top-link:not(#_) {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--tap)
+  }
+
+  /* :not(#_) lifts specificity over component rules */
+  .pro-menu {
+    width: var(--tap);
+    height: var(--tap)
+  }
+}
+
+@media (hover:none) {
+  .user-area a:hover {
+    transform: none
+  }
+}

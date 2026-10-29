@@ -40,7 +40,13 @@
 
 **Problem:** ~750-line `@ts-nocheck` port from static HTML powers menu, carousels, brief mailto.
 
-**Decision:** Preserve behavior; split into modules; menu must not require `#HeroBanner` (detail pages).
+**Decision:** Preserve behavior behind a **recipe registry** (`data-fx` + `mount(root)`); menu/theme stay typed; scene bodies live in `recipes/scenes.ts`. Menu must not require `#HeroBanner` (detail pages). No GSAP/Lenis unless product revisits.
+
+## ADR-010: Modular CSS under `src/styles/`
+
+**Problem:** 3.5k-line `site.css` blocked section ownership and review.
+
+**Decision:** Split by tokens / base / chrome / sections / responsive; `index.css` preserves cascade order; `site.css` re-exports for compatibility.
 
 ## ADR-007: Cache tag naming (ISR later)
 

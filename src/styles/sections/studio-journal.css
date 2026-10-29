@@ -1,0 +1,198 @@
+/* ===== STUDIO + JOURNAL: same tokens, type scale, gutter and radius as every section ===== */
+.studio {
+  position: relative;
+  z-index: 3;
+  background: radial-gradient(var(--dot) 1px, transparent 1.3px) 0 0/26px 26px, linear-gradient(180deg, var(--alt), var(--page));
+  color: var(--ink);
+  padding: clamp(64px, 9vw, 130px) 0
+}
+
+.studio-in,
+.journal-in {
+}
+
+.studio .eyebrow,
+.journal .eyebrow {
+  color: var(--red-fg)
+}
+
+.studio h2,
+.journal h2 {
+  margin-top: 14px;
+  font-size: clamp(2.4rem, 1.6rem + 4.6vw, 5rem);
+  font-weight: 700;
+  line-height: 1;
+  text-wrap: balance
+}
+
+.studio-lede,
+.journal-lede {
+  margin-top: clamp(16px, 2.2vw, 26px);
+  max-width: 38rem;
+  font-size: var(--fs-lede);
+  line-height: 1.45;
+  text-wrap: pretty
+}
+
+.studio-lede {
+  color: var(--muted)
+}
+
+.studio-grid {
+  margin-top: clamp(30px, 4.5vw, 56px);
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr);
+  gap: clamp(24px, 4vw, 56px);
+  align-items: start
+}
+
+.studio-media {
+  border-radius: clamp(18px, 2.4vw, 28px);
+  overflow: hidden;
+  background: var(--graphite)
+}
+
+.studio-video {
+  width: 100%;
+  aspect-ratio: 16/10;
+  object-fit: cover
+}
+
+.studio-stats {
+  list-style: none;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--graphite);
+  border: 1px solid var(--graphite);
+  border-radius: clamp(14px, 2vw, 22px);
+  overflow: hidden
+}
+
+.studio-stats li {
+  background: var(--card-solid);
+  padding: clamp(18px, 2.6vw, 30px);
+  display: grid;
+  gap: 6px
+}
+
+.studio-stats b {
+  font-size: clamp(1.7rem, 1.2rem + 2vw, 2.6rem);
+  font-weight: 700;
+  line-height: 1
+}
+
+.studio-stats span {
+  font-size: .9rem;
+  line-height: 1.45;
+  color: var(--muted)
+}
+
+.studio-copy {
+  display: grid;
+  gap: 16px;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--muted);
+  max-width: 34rem
+}
+
+.studio-copy b {
+  color: var(--ink)
+}
+
+.journal {
+  position: relative;
+  z-index: 3;
+  background: radial-gradient(rgba(134, 138, 144, .14) 1px, transparent 1.3px) 0 0/26px 26px, var(--page);
+  color: var(--ink);
+  padding: clamp(64px, 9vw, 130px) 0 clamp(72px, 9vw, 140px)
+}
+
+.journal-grid {
+  margin-top: clamp(30px, 4.5vw, 56px);
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(20px, 3vw, 40px)
+}
+
+.post {
+  display: grid;
+  gap: 14px;
+  align-content: start
+}
+
+.post-img {
+  border-radius: clamp(14px, 2vw, 22px);
+  overflow: hidden;
+  aspect-ratio: 16/10;
+  background: var(--card)
+}
+
+.post-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover
+}
+
+.post-meta {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  font-size: .72rem;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--muted)
+}
+
+.post-meta b {
+  color: var(--red-fg)
+}
+
+.post h3 {
+  font-size: clamp(1.25rem, 1.05rem + .9vw, 1.6rem);
+  font-weight: 700;
+  line-height: 1.15;
+  text-wrap: balance
+}
+
+.post p {
+  font-size: .95rem;
+  line-height: 1.55;
+  color: var(--muted);
+  max-width: 34ch
+}
+
+.post-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: var(--tap);
+  font-weight: 700;
+  color: var(--ink)
+}
+
+.post-link .ic {
+  width: 18px;
+  height: 18px;
+  transition: transform .25s ease
+}
+
+.post-link:hover .ic {
+  transform: translateX(4px)
+}
+
+@media (max-width:900px) {
+  .studio-grid {
+    grid-template-columns: minmax(0, 1fr)
+  }
+
+  .journal-grid {
+    grid-template-columns: minmax(0, 1fr)
+  }
+
+  .post p {
+    max-width: 46ch
+  }
+}

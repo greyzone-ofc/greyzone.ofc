@@ -45,4 +45,5 @@ lib/site     ← nav, SEO, site URL
 - [code-map.md](./code-map.md)
 - [routing-and-content.md](./routing-and-content.md)
 - [ui-system.md](./ui-system.md)
+- [styles-and-effects.md](./styles-and-effects.md)
 - [decisions.md](./decisions.md)

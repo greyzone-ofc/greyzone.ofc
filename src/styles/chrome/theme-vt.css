@@ -1,0 +1,56 @@
+/* ===== THEME CIRCULAR REVEAL (same point-of-origin animation as the menu) =====
+   Researched pattern (MDN / Chrome for Developers "Same-document view transitions",
+   Adam Argyle's GUI Challenge + nerdy.dev clip-path demo, Akash Hamirwasia):
+   the menu grows a real overlay with clip-path:circle() from the menu button's centre;
+   a theme swap has no overlay to grow — it recolours the whole page — so the View
+   Transitions API does the equivalent: snapshot the old theme, apply the new one,
+   snapshot it, then grow clip-path:circle() on the NEW snapshot (::view-transition-new)
+   from the toggle's centre to the farthest viewport corner, old snapshot underneath.
+   That animates two compositor images instead of transitioning every colour property
+   on every element for 60 frames (the repaint trap the menu's clip-path also avoids).
+   Rules are scoped by .theme-vt, added only for this transition, so any other view
+   transition keeps its defaults. Default cross-fade/blend is killed: the new theme
+   must be fully opaque inside the circle, the old fully visible outside it. */
+:root.theme-vt::view-transition-old(root),
+:root.theme-vt::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal
+}
+
+:root.theme-vt::view-transition-old(root) {
+  z-index: 1
+}
+
+:root.theme-vt::view-transition-new(root) {
+  z-index: 2147483646
+}
+
+/* the snapshots must be the finished themes, not a half-run .35s colour transition */
+:root.theme-vt *,
+:root.theme-vt *::after,
+:root.theme-vt *::before {
+  transition: none !important
+}
+
+/* belt and braces with the JS guard: reduced-motion users never see the reveal,
+   even if a transition was already in flight when the OS setting changed */
+@media (prefers-reduced-motion:reduce) {
+
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important
+  }
+
+  .theme-toggle {
+    transition: none
+  }
+}
+
+@media (max-width:640px) {
+  .user-area .head-cta {
+    display: none
+  }
+}
+
+/* reachable from the menu instead */

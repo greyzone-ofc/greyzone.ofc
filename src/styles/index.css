@@ -1,0 +1,29 @@
+﻿/**
+ * GREYZONE marketing styles — modular entry.
+ * Cascade order matters. Do not alphabetize imports.
+ *
+ * tokens → base → chrome → sections → responsive
+ */
+@import "./tokens.css";
+@import "./base.css";
+
+@import "./chrome/header.css";
+@import "./chrome/theme-vt.css";
+@import "./chrome/menu.css";
+@import "./chrome/footer.css";
+@import "./chrome/a11y.css";
+
+@import "./sections/hero.css";
+@import "./sections/why.css";
+@import "./sections/vmask.css";
+@import "./sections/services.css";
+@import "./sections/projects.css";
+@import "./sections/contact.css";
+@import "./sections/process.css";
+@import "./sections/studio-journal.css";
+@import "./sections/upgrades.css";
+@import "./sections/hero-entry.css";
+@import "./sections/detail.css";
+
+@import "./responsive.css";
+@import "./effects/sda-pe.css";

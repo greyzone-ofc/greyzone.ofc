@@ -1,7 +1,7 @@
 @import "tailwindcss";
-@import "../styles/site.css";
+@import "../styles/index.css";
 
-/* GREYZONE design tokens — single source of truth (Tailwind v4 @theme). */
+/* Tailwind v4 theme bridge — keep aligned with styles/tokens.css */
 @theme {
   --color-ink: #0A0A0A;
   --color-paper: #FFFFFF;
@@ -32,10 +32,12 @@
   color: var(--red-fg);
 }
 
-.skip-link{position:fixed;top:calc(var(--top) + env(safe-area-inset-top,0px));left:var(--pad);z-index:100;min-height:44px;display:inline-flex;align-items:center;padding:0 20px;border-radius:99px;background:var(--ink);color:var(--page);font-weight:700;transform:translateY(-300%);transition:transform .25s var(--ease-menu)}
-.skip-link:focus-visible{transform:none}
-.svg-sprite{position:absolute;width:0;height:0;overflow:hidden}
-
-@media (prefers-reduced-motion: reduce){
-  *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;scroll-behavior:auto !important}
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+  }
 }

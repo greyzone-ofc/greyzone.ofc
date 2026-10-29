@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { Acc } from '@/components/ui/Acc';
-import { ProjectArt } from '@/features/work/ProjectArt';
+import { ProjectArt } from '@/features/work';
 import type { Project } from '@/lib/content';
 
 export function WorkDetailTemplate({ project }: { project: Project }) {

@@ -16,7 +16,7 @@ export async function ProcessSection() {
   if (processSteps.length === 0) return null;
 
   return (
-    <section className="build" id="process" aria-labelledby="buildTitle">
+    <section className="build" id="process" data-fx="marquee" aria-labelledby="buildTitle">
       <div className="build-pin">
         <div className="build-head" data-rv>
           <span className="eyebrow">Our process</span>

@@ -1,0 +1,535 @@
+/* ===== CONTACT: circle reveal from bottom centre ===== */
+/* base = plain final section (no JS / reduced motion); the reveal is layered on below */
+/* Contact stage is a sticky full-viewport panel. Layout is height-first:
+   content must fit inside 100svh so the foot never intersects the brief
+   or the How-we-build curtain that follows. */
+.contact {
+  --reveal: 115;
+  position: relative;
+  z-index: 2
+}
+
+.contact-anchor {
+  position: absolute;
+  top: 0;
+  left: 0
+}
+
+.contact-stage {
+  position: relative;
+  height: calc(var(--svh)*100);
+  min-height: calc(var(--svh)*100);
+  display: flex;
+  overflow: hidden;
+  background: var(--red);
+  color: #fff
+}
+
+.contact-inner {
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+  width: 100%;
+  max-width: var(--site-max);
+  margin: 0 auto;
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
+  gap: clamp(10px, 1.6vw, 22px);
+  padding: var(--clear) var(--pad) clamp(10px, calc(var(--svh)*2), 22px);
+  padding-bottom: max(clamp(10px, calc(var(--svh)*2), 22px), env(safe-area-inset-bottom, 0px));
+  transform-origin: 50% 100%;
+  overflow: hidden
+}
+
+.contact-main {
+  min-height: 0;
+  align-self: stretch;
+  display: grid;
+  align-content: center;
+  gap: clamp(14px, 2.2vw, 28px)
+}
+
+.contact-intro {
+  display: grid;
+  align-content: start;
+  min-width: 0
+}
+
+.contact .eyebrow {
+  color: rgba(255, 255, 255, .72);
+  margin-bottom: clamp(8px, 1.2vw, 14px)
+}
+
+.contact h2 {
+  font-size: clamp(1.85rem, 1.1rem + 3.2vw, 4.6rem);
+  font-weight: 700;
+  line-height: 1.02;
+  letter-spacing: -.01em;
+  text-wrap: balance;
+  max-width: 12ch
+}
+
+.contact-lede {
+  margin-top: clamp(10px, 1.4vw, 18px);
+  max-width: 32rem;
+  font-size: var(--fs-lede);
+  line-height: 1.4;
+  color: rgba(255, 255, 255, .85);
+  text-wrap: pretty
+}
+
+.contact-channels {
+  display: grid;
+  gap: 8px;
+  margin-top: clamp(12px, 1.8vw, 22px);
+  max-width: 34rem
+}
+
+.contact-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, .62)
+}
+
+.contact-mail {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  width: fit-content;
+  max-width: 100%;
+  min-height: 40px;
+  font-size: clamp(1.05rem, .8rem + 1.1vw, 1.65rem);
+  font-weight: 700;
+  line-height: 1.15;
+  overflow-wrap: anywhere;
+  border-bottom: 2px solid rgba(255, 255, 255, .45);
+  padding-bottom: 4px;
+  transition: border-color .25s
+}
+
+.contact-mail svg {
+  width: .72em;
+  height: .72em;
+  flex: none;
+  transition: transform .25s
+}
+
+.contact-mail:hover {
+  border-color: #fff
+}
+
+.contact-mail:hover svg {
+  transform: translate(3px, -3px)
+}
+
+.contact-meta-line {
+  margin: 0;
+  font-size: .82rem;
+  line-height: 1.35;
+  color: rgba(255, 255, 255, .78);
+  text-wrap: pretty
+}
+
+.contact-meta-line a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px
+}
+
+.contact-meta-item .contact-label {
+  margin-right: .15em
+}
+
+.contact-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0 24px;
+  border-radius: var(--r-btn);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  background: #fff;
+  color: var(--red-deep);
+  border: 1px solid #fff;
+  cursor: pointer;
+  transition: transform .25s, background .25s, color .25s
+}
+
+.contact-btn:hover {
+  transform: translateY(-2px);
+  background: transparent;
+  color: #fff
+}
+
+.contact :focus-visible {
+  outline-color: #fff
+}
+
+.contact-foot {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px 16px;
+  flex-wrap: wrap;
+  min-height: 0;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255, 255, 255, .35);
+  font-size: .8rem;
+  color: rgba(255, 255, 255, .82)
+}
+
+.contact-foot-copy {
+  margin: 0;
+  flex: 1 1 14rem;
+  max-width: 36rem;
+  text-wrap: pretty
+}
+
+.contact-foot-social {
+  flex: 0 0 auto
+}
+
+.contact-top-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 40px;
+  font-weight: 700;
+  color: #fff;
+  font-size: .8rem;
+  margin-left: auto
+}
+
+.contact-top-link svg {
+  width: 14px;
+  height: 14px;
+  transform: rotate(-45deg)
+}
+
+.contact-foot .menu-social {
+  gap: 8px
+}
+
+.contact-foot .menu-social a {
+  width: 34px;
+  height: 34px;
+  border-color: rgba(255, 255, 255, .45);
+  color: #fff
+}
+
+.contact-foot .menu-social a:hover {
+  background: rgba(255, 255, 255, .12);
+  border-color: #fff
+}
+
+/* stacked (phone / tablet portrait): brief is primary; intro stays short */
+@media (max-width:899px) {
+  .contact-main {
+    grid-template-rows: auto minmax(0, 1fr);
+    align-content: stretch;
+    gap: 12px
+  }
+
+  .contact-lede,
+  .contact-meta-line,
+  .brief-kicker,
+  .brief-note,
+  .contact-foot-copy {
+    display: none
+  }
+
+  .contact-channels {
+    margin-top: 10px;
+    gap: 0
+  }
+
+  .contact h2 {
+    font-size: clamp(1.7rem, 1.15rem + 2.8vw, 2.6rem)
+  }
+
+  .brief {
+    align-self: start;
+    max-width: 40rem
+  }
+
+  .contact-foot {
+    flex-wrap: nowrap;
+    gap: 12px
+  }
+
+  .contact-top-link {
+    margin-left: 0
+  }
+}
+
+/* desktop / wide tablet: invitation | brief */
+@media (min-width:900px) {
+  .contact-main {
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    align-items: end;
+    gap: clamp(24px, 3.5vw, 56px)
+  }
+
+  .brief {
+    justify-self: end;
+    width: 100%;
+    max-width: 28rem
+  }
+}
+
+@media (min-width:1200px) {
+  .contact-main {
+    align-items: center
+  }
+
+  .brief {
+    max-width: 30rem
+  }
+
+  .contact h2 {
+    font-size: clamp(2.4rem, 1.4rem + 3.6vw, 5rem)
+  }
+}
+
+/* short + wide: force split so height stays under one screen */
+@media (min-width:700px) and (max-height:640px) {
+  .contact-main {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+    align-items: center;
+    gap: 16px
+  }
+
+  .contact-lede,
+  .contact-meta-line,
+  .brief-kicker,
+  .brief-note,
+  .contact-foot-copy {
+    display: none
+  }
+
+  .brief {
+    max-width: none;
+    justify-self: stretch
+  }
+}
+
+/* height compaction for sticky stage */
+@media (max-height:900px) {
+  .contact-lede {
+    display: none
+  }
+
+  .contact-inner {
+    gap: 10px;
+    padding-top: calc(var(--clear)*.85)
+  }
+
+  .brief {
+    gap: 8px;
+    padding: 14px
+  }
+
+  .brief legend {
+    margin-bottom: 4px
+  }
+
+  .brief fieldset {
+    gap: 4px
+  }
+
+  .chips {
+    gap: 6px
+  }
+
+  .chip-opt span {
+    min-height: 34px;
+    padding: 0 12px;
+    font-size: .8rem
+  }
+
+  .brief-summary {
+    font-size: .92rem;
+    line-height: 1.3
+  }
+
+  .brief .contact-btn {
+    min-height: 42px
+  }
+}
+
+@media (max-height:760px) {
+  .contact-meta-line,
+  .brief-kicker,
+  .brief-note,
+  .brief-alt {
+    display: none
+  }
+
+  .brief-summary {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden
+  }
+
+  .contact-main {
+    gap: 10px
+  }
+
+  .contact-foot {
+    padding-top: 8px
+  }
+
+  .brief {
+    gap: 6px;
+    padding: 12px
+  }
+}
+
+@media (max-height:600px) {
+  .contact h2 {
+    font-size: clamp(1.4rem, 1rem + 2vw, 1.9rem)
+  }
+
+  .contact-mail {
+    font-size: 1rem;
+    min-height: 32px
+  }
+
+  .contact-foot-copy {
+    display: none
+  }
+
+  .brief-summary {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap
+  }
+
+  .brief-kicker {
+    display: none
+  }
+}
+
+/* phones: one swipeable chip row per fieldset — keeps panel short */
+@media (max-width:899px) {
+  .brief .chips {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x proximity;
+    padding-bottom: 2px;
+    margin-inline: -2px;
+    padding-inline: 2px;
+    scrollbar-width: none
+  }
+
+  .brief .chips::-webkit-scrollbar {
+    display: none
+  }
+
+  .brief .chip-opt {
+    flex: none;
+    scroll-snap-align: start
+  }
+}
+
+/* the services curtain lifts off a pinned projects stage, which then holds its last
+   card while the contact circle grows over it from the bottom centre */
+@media (prefers-reduced-motion:no-preference) {
+  .curtain {
+    border-radius: 24px;
+    box-shadow: 0 -24px 60px rgba(10, 10, 10, .14), 0 32px 64px rgba(0, 0, 0, .4)
+  }
+
+  .projects {
+    margin-top: calc(var(--svh)*-100);
+    height: calc(var(--svh)*200)
+  }
+
+  .projects.is-arc {
+    height: calc(var(--svh)*200 + (var(--n) - 1)*var(--run) + var(--svh)*var(--reveal))
+  }
+
+  .proj-stage {
+    position: sticky;
+    top: 0;
+    height: calc(var(--svh)*100)
+  }
+
+  .proj-anchor {
+    top: calc(var(--svh)*100)
+  }
+
+  /* overlap = one screen (stage slides in, clipped to a 0-radius circle) + the reveal
+ runway; the finished contact then holds for 30svh while the How-we-build curtain
+ slides over it for the final 100svh */
+  .contact {
+    margin-top: calc(var(--svh)*(-100 - var(--reveal)));
+    height: calc(var(--svh)*(230 + var(--reveal)))
+  }
+
+  .build {
+    margin-top: calc(var(--svh)*-100);
+    border-radius: 26px 26px 0 0;
+    box-shadow: 0 -24px 60px rgba(10, 10, 10, .35)
+  }
+
+  /* exit curtain (footer reveal): How-we-build is the curtain, the footer is revealed
+ underneath it. The footer's sticky stage (.footer-reveal) is pulled up over only
+ the last 100svh of the build section, so the footer is contained there — it is
+ never behind the hero or any earlier section. As scrolling continues, the opaque
+ build section lifts away and uncovers the footer, which holds the viewport
+ bottom inside its stage. JS enables this only when motion is allowed and the
+ whole footer fits within 100svh; otherwise the footer stays ordinary flow. */
+  .build.is-lift,
+  .journal.is-lift {
+    border-bottom-left-radius: 26px;
+    border-bottom-right-radius: 26px;
+    box-shadow: 0 -24px 60px rgba(10, 10, 10, .35), 0 30px 60px rgba(10, 10, 10, .32)
+  }
+
+  .footer-reveal.is-reveal {
+    margin-top: calc(var(--svh)*-100)
+  }
+
+  .footer-reveal.is-reveal .footer-stage {
+    display: block;
+    height: calc(var(--svh)*100)
+  }
+
+  .footer-reveal.is-reveal .site-footer {
+    position: sticky;
+    bottom: 0;
+    transform: translate3d(0, 0, 0)
+  }
+
+  .footer-reveal.is-reveal:focus-within {
+    z-index: 4
+  }
+
+  .contact-anchor {
+    top: calc(var(--svh)*var(--reveal))
+  }
+
+  .contact-stage {
+    position: sticky;
+    top: 0;
+    height: calc(var(--svh)*100);
+    min-height: 0;
+    clip-path: circle(calc(var(--cr, 150)*1%) at 50% 100%);
+    will-change: clip-path
+  }
+}

@@ -22,8 +22,8 @@ Static marketing site for GREYZONE (Next.js 16 App Router, React 19, TypeScript)
 | Shared chrome & UI | `src/components/` |
 | Edit copy / projects / journal | `src/content/` via **`src/lib/content`** only |
 | Nav, email, SEO, site URL | `src/lib/site/` |
-| Styles / tokens | `src/styles/site.css` |
-| Interactions | `src/features/effects/` + `SiteEffects` |
+| Styles / tokens | `src/styles/` (`index.css` entry; see `docs/architecture/styles-and-effects.md`) |
+| Interactions | `src/features/effects/` recipes (`data-fx`) + `SiteEffects` |
 | Architecture docs | `docs/architecture/` |
 
 Full map: [docs/architecture/code-map.md](docs/architecture/code-map.md).

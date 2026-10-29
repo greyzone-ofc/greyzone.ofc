@@ -1,0 +1,220 @@
+/* ===== VIDEO TEXT MASK (hero word) =====
+   Layout comes from the real text (.vmask-text) so it stays fluid, selectable-by-AT and crawlable.
+   A video sits on top, clipped by an SVG <clipPath> whose <text> is kept in sync with the real text by JS.
+   Without JS / video / clip-path support, the original outlined word is shown untouched. */
+.vmask {
+  position: relative;
+  display: block;
+  width: fit-content;
+  max-width: 100%
+}
+
+.vmask-base {
+  display: inline-block;
+  width: 0;
+  height: 0
+}
+
+.vmask-media {
+  position: absolute;
+  inset: -.06em -1.5em -.06em 0;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+  clip-path: url(#vmaskClip);
+  transition: opacity .6s ease;
+  contain: paint;
+  font-size: inherit
+}
+
+/* luminance key: black video pixels become transparent, so the word is the page background until colour passes through */
+:root {
+  --vmask-key: url(#vmaskKeyLight)
+}
+
+@media (prefers-color-scheme:dark) {
+  :root:not([data-theme="light"]) {
+    --vmask-key: url(#vmaskKeyDark)
+  }
+}
+
+:root[data-theme="dark"] {
+  --vmask-key: url(#vmaskKeyDark)
+}
+
+.vmask-media video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  filter: var(--vmask-key)
+}
+
+.vmask-defs {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden
+}
+
+.vmask.is-video .vmask-media {
+  opacity: 1
+}
+
+.vmask.is-video .vmask-text {
+  -webkit-text-stroke: 0;
+  color: transparent
+}
+
+/* phones: the word must fit the gutter-to-gutter width (no off-screen letters) */
+@media (max-width:600px) {
+  .vmask .vmask-text {
+    font-size: 14vw
+  }
+}
+
+@media (prefers-reduced-motion:reduce) {
+  .vmask-media {
+    transition: none
+  }
+}
+
+.hero-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none
+}
+
+/* Pointer glow: ink in light mode, soft white in dark (matches canvas accents). */
+.hero-glow {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(560px circle at var(--mx, 72%) var(--my, 28%), rgba(10, 10, 10, .16), transparent 62%), radial-gradient(700px circle at 12% 88%, rgba(255, 255, 255, .05), transparent 60%)
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .hero-glow {
+    background: radial-gradient(560px circle at var(--mx, 72%) var(--my, 28%), rgba(255, 255, 255, .12), transparent 62%), radial-gradient(700px circle at 12% 88%, rgba(255, 255, 255, .05), transparent 60%)
+  }
+}
+:root[data-theme="dark"] .hero-glow {
+  background: radial-gradient(560px circle at var(--mx, 72%) var(--my, 28%), rgba(255, 255, 255, .12), transparent 62%), radial-gradient(700px circle at 12% 88%, rgba(255, 255, 255, .05), transparent 60%)
+}
+:root[data-theme="light"] .hero-glow {
+  background: radial-gradient(560px circle at var(--mx, 72%) var(--my, 28%), rgba(10, 10, 10, .16), transparent 62%), radial-gradient(700px circle at 12% 88%, rgba(255, 255, 255, .05), transparent 60%)
+}
+
+.hero-copy {
+  max-width: var(--site-max);
+  margin: clamp(28px, 5vw, 56px) auto 0;
+  padding: 0 var(--pad);
+  text-align: left
+}
+
+.eyebrow {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--red-fg);
+  margin-bottom: 1rem
+}
+
+/* hero type system, site-wide: Figtree carries every headline, Fraunces italic accents exactly one word */
+.acc {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 560;
+  letter-spacing: -.01em;
+  color: var(--red-fg)
+}
+
+.contact .acc {
+  color: #fff
+}
+
+.title {
+  font-size: clamp(2.9rem, 1.6rem + 7.4vw, 7.2rem);
+  font-weight: 700;
+  line-height: .97;
+  letter-spacing: -.02em;
+  max-width: 12ch;
+  overflow-wrap: break-word
+}
+
+.t-line {
+  display: block
+}
+
+.rotator {
+  color: var(--red-fg)
+}
+
+.rotator em,
+.title .serif {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 560;
+  letter-spacing: -.01em
+}
+
+.title .serif {
+  color: var(--red-fg)
+}
+
+.lede {
+  font-size: var(--fs-lede);
+  line-height: 1.45;
+  color: var(--muted);
+  max-width: 42rem;
+  margin: clamp(16px, 2.4vw, 28px) 0 0;
+  text-wrap: pretty
+}
+
+@keyframes cue-nudge {
+
+  0%,
+  100% {
+    transform: rotate(90deg) translateX(0)
+  }
+
+  50% {
+    transform: rotate(90deg) translateX(4px)
+  }
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: 0 28px;
+  border-radius: var(--r-btn);
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 700;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  border: 1px solid var(--ink);
+  color: var(--ink);
+  transition: transform .25s, background .25s, color .25s, border-color .25s
+}
+
+.btn-solid {
+  background: var(--red);
+  border-color: var(--red);
+  color: #fff
+}
+
+.btn-solid:hover {
+  background: var(--red-deep);
+  border-color: var(--red-deep)
+}
+
+.btn:hover {
+  transform: translateY(-2px)
+}

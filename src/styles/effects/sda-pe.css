@@ -1,0 +1,13 @@
+/**
+ * Progressive enhancement: CSS scroll-driven animations where supported.
+ * Decorative only — unsupported browsers keep JS recipe behavior / static CSS.
+ * Chrome guidance: do not rely on scroll-timeline polyfill as the production fallback.
+ */
+@supports (animation-timeline: scroll()) and (animation-range: 0% 100%) {
+  @media (prefers-reduced-motion: no-preference) {
+    /* Example hook: section roots may expose --fx-p from JS; SDA can own simple meters later. */
+    [data-fx][data-fx-sda='meter'] {
+      /* reserved — wire per-section when migrating a meter off rAF */
+    }
+  }
+}
